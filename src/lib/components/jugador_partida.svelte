@@ -1,0 +1,190 @@
+<script>
+  import { pjDragado, pjs, js } from '$lib/stores'
+  export let jugador = undefined
+  import { notifications } from '$lib/notificaciones'
+  import { page } from '$app/stores'
+
+  console.log(jugador)
+  
+  /**
+   * @param id id de este JUGADOR que tiene asignado un personaje
+   */
+  function liberaPj(id){
+    const datos = {id}
+    const j = $js.get(id)
+    const pj = $pjs.get(j.id_pj)
+
+    // cambio optimista en la interfaz...
+    const nombre_pjAnterior = jugador.nombre_pj
+    const id_pjAnterior = jugador.id_pj
+    const pjJugadorNombreAsignadoAnterior = pj.jugador_username
+    const pjJugadorIdAsignadoAnterior = pj.id_jugador
+    j.id_pj = ''
+    j.nombre_pj = ''
+    pj.id_jugador = ''
+    pj.jugador_username = ''
+    $pjs = $pjs
+    $js = $js
+
+    // enviar petición de liberación de pj
+    fetch('/api/pj', {
+      method: 'PATCH',
+      headers: {'Content-Type': 'application/json', accion: 'liberarPj'},
+      body: JSON.stringify(datos)
+    })
+    .then(res => res.json())
+    .then(res => {
+      if (res?.type === 'success'){
+        notifications.success(res.message, 3000)
+      }else{
+        //desacer cambio optimista
+        j.id_pj = id_pjAnterior
+        j.nombre_pj = nombre_pjAnterior
+        pj.id_jugador = pjJugadorIdAsignadoAnterior
+        pj.jugador_username = pjJugadorNombreAsignadoAnterior
+        notifications.warning(res.message, 3000)
+        $pjs = $pjs
+        $js = $js
+      }
+    })
+  }
+
+
+  function retirarJ(id){
+    console.log('Retirando jugador')
+    const body = JSON.stringify({
+      idJug: id,
+    })
+
+    fetch('/api/jug',{
+      method: 'DELETE',
+      headers: {'Content-Type': 'application/json'},
+      body
+    })
+    .then(res => res.json())
+    .then(res => {
+      if (res?.type === 'success'){
+        notifications.success(res.message, 3000)
+        // quitando los datos del jugador del personaje
+        const suPj = $pjs.get($js.get(id).id_pj)
+        if (suPj){
+          suPj.id_jugador = ''
+          suPj.jugador_username = ''
+          $pjs = $pjs
+        }
+        
+        // borrando el jugador
+        $js.delete(id)
+        $js = $js
+
+      }else{
+        notifications.warning(res.message, 3000)        
+      }
+    })
+  }
+
+
+  /**
+   * 
+   * @param id id del PERSONAJE que se le asigna a este j
+   */
+  function asignarPj(id){
+    const pj = $pjs.get(id)
+    const j = jugador
+
+    console.log(`asignando ${pj.nombre} a ${jugador.jugador_username}`)
+    $pjDragado = undefined
+
+    // cambio optimista en la interfaz...
+    const nombre_pjAnterior = j.nombre_pj
+    const id_pjAnterior = j.id_pj
+    const pjJugadorNombreAsignadoAnterior = pj.jugador_username
+    const pjJugadorIdAsignadoAnterior = pj.id_jugador
+    j.id_pj = pj.id
+    j.nombre_pj = pj.nombre
+    pj.id_jugador = jugador.id
+    pj.jugador_username = jugador.jugador_username
+    $pjs = $pjs
+    $js = $js
+
+    // construir datos para enviar al servidor
+    const body = JSON.stringify({
+      pjId: pj.id,
+      jId: jugador.id
+    })
+
+    // enviar los datos de la asignación de personaje al servidor
+    fetch('/api/pj',{
+      method: 'PATCH',
+      headers: {'Content-Type': 'application/json', accion: 'asignarPj'},
+      body
+    })
+    .then(res => res.json())
+    .then(res => {
+      if (res.type === 'success'){
+        notifications.success(res.message, 3000)
+      }else{
+        // dehacer el cambio optimista si no ha salido bien
+        jugador.id_pj = id_pjAnterior
+        jugador.nombre_pj = nombre_pjAnterior
+        pj.id_jugador = pjJugadorIdAsignadoAnterior
+        pj.jugador_username = pjJugadorNombreAsignadoAnterior
+        notifications.warning(res?.message, 3000)
+        $pjs = $pjs
+        $js = $js
+      }
+    })
+  }
+  
+</script>
+
+
+
+
+<div>
+  {#if !jugador}
+    <span>Nombre</span>
+    <span>Personaje</span>
+  {:else}
+    <div>
+      <span>{jugador.jugador_username}</span>
+      <button on:click={() => retirarJ(jugador.id)}>Retirar jugador</button>
+    </div>
+    {#if jugador.nombre_pj}
+      <div>
+        <a href="#">{jugador.nombre_pj}</a>
+        <button on:click={() => {liberaPj(jugador.id)}}>Retirar Personaje</button>
+      </div>
+    {:else}
+      <div
+        class:objetivo={$pjDragado}
+        on:drop={() => {asignarPj($pjDragado, jugador)}} 
+        on:dragenter|preventDefault 
+        on:dragover|preventDefault
+      >
+        <span>Sin personaje</span>
+        <span>Arrastra aquí un personaje para asignar</span>
+      </div>
+    {/if}
+  {/if}
+</div>
+
+
+
+<style>
+  div{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    height: 100%;
+  }
+
+  div > div {
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr;
+  }
+
+  .objetivo{
+    outline: 1px dashed var(--borde);
+    outline-offset: -4px;
+  }
+</style>
