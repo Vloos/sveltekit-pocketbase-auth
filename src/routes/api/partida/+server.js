@@ -30,6 +30,8 @@ export const POST = async (event) => {
 
 
 export const PATCH = async (event) => {
+  if(!event.locals.user) return new Response('No identificado')
+
   let data = await event.request.json()
   let id = data.id  
   if(!data.nombre) return new Response(JSON.stringify({type: 'error', message: 'Campaña sin nombre'}), {status:400})
@@ -48,6 +50,8 @@ export const PATCH = async (event) => {
 
 
 export const DELETE = async (event) => {
+  if(!event.locals.user) return new Response('No identificado')
+  
   let data = await event.request.json()  
   try{
     await event.locals.pb.collection('campana').delete(data.id);

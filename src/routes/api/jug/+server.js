@@ -1,6 +1,8 @@
 /** @type {import('./$types').RequestHandler} */
 
 export const POST = async (event) =>{
+  if(!event.locals.user) return new Response('No identificado')
+
   const data = await event.request.json();
   const {idCampa, email} = data
   let usuario
@@ -48,6 +50,8 @@ export const POST = async (event) =>{
  * Retirar jugador
  */
 export const DELETE = async (event) =>{
+  if(!event.locals.user) return new Response('No identificado')
+  
   const data = await event.request.json()
   const {idJug} = data
 
