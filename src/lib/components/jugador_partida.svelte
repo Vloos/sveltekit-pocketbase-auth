@@ -4,7 +4,6 @@
   import { notifications } from '$lib/notificaciones'
   import { page } from '$app/stores'
 
-  console.log(jugador)
   
   /**
    * @param id id de este JUGADOR que tiene asignado un personaje

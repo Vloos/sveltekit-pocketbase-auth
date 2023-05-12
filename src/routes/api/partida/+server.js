@@ -30,6 +30,8 @@ export const POST = async (event) => {
 
 
 export const PATCH = async (event) => {
+  if(!event.locals.user) return new Response('No identificado')
+
   let data = await event.request.json()
   let id = data.id  
   if(!data.nombre) return new Response(JSON.stringify({type: 'error', message: 'Campaña sin nombre'}), {status:400})
@@ -48,6 +50,8 @@ export const PATCH = async (event) => {
 
 
 export const DELETE = async (event) => {
+  if(!event.locals.user) return new Response('No identificado')
+  
   let data = await event.request.json()  
   try{
     await event.locals.pb.collection('campana').delete(data.id);
@@ -55,4 +59,31 @@ export const DELETE = async (event) => {
   }catch (err){
     return new Response(JSON.stringify({type: 'error', message: 'No se pudo borrar la campaña'}), {status:400})
   }
+}
+
+
+/**
+ * LLamada cuando se inicia el jugar a una partida.
+ * Comprueba que el jugador es el dj de la partida a la que se juega
+ */
+export const GET = async (event) => {
+  if(!event.locals.user) return new Response('No identificado')
+
+  const id = event.request.headers.get('id')
+  const uId = event.request.headers.get('uid')
+  
+  try{
+    const record = await event.locals.pb.collection('campana').getOne(id)
+    if (record.dj === uId){
+      console.log('DJ conectado')
+      return new Response(JSON.stringify({rype: 'success', message: 'Encontrado', data: record.dj}), {status: 200})
+    } else{
+      throw new Error('PJ conectado')
+    }
+  }catch (err){
+    console.log(err)
+    return new Response(JSON.stringify({type: 'error', message: 'No encontrado'}), {status: 404})
+  }
+  
+
 }

@@ -12,7 +12,7 @@
   let secciones = ['Identifícate', 'Regístrate']
   let seccionActiva = form?.error ? 1 : 0
 
-  $: console.log('DATA:', data)
+  //$: console.log('DATA:', data)
 
   $: $campJugando = data.jugando
   $: $campDirigiendo = data.dirigiendo

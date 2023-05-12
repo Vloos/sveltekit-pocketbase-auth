@@ -15,7 +15,7 @@ const config = {
 			// default options are shown
 			out: 'build',
 			precompress: false,
-			envPrefix: 'VL',
+			envPrefix: '',
 			polyfill: true
 		})
 	}

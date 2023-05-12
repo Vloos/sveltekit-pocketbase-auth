@@ -5,7 +5,7 @@
 	export let partida = undefined
 
   function handleClick(id){
-    goto(`/dj/administrar/${id}`)
+    
   }
 </script>
 
@@ -23,8 +23,8 @@
     <span>{formateaFecha(partida.creado)}</span>
     <span>{partida.jugadores}</span>
     <div class="botonera">
-      <button>Jugar</button>
-      <button on:click={() => handleClick(partida.id)}>Editar</button>
+      <button on:click={() => {goto(`/dj/${partida.id}/jugar`)}}>Jugar</button>
+      <button on:click={() => {goto(`/dj/${partida.id}/administrar`)}}>Editar</button>
     </div>
   </article>
 {/if}
