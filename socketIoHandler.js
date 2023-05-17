@@ -5,6 +5,11 @@ export default function injectSocketIO(server) {
 
     io.on('connection', (socket) => {
         console.log(socket.handshake.auth.token);
+        /* TODO 
+            comprobar que role es 'dj'
+            
+
+        */
 
 
         /* Que pasa cuando el socket se desconecta */

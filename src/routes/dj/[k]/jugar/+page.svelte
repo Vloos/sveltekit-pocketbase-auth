@@ -4,10 +4,12 @@
   export let data
   let msg
 
+  //TODO debería conectar al entrar en esta página
   function conectar(){
     conexion(data.user.id, $page.params.k)
   }
 
+  //TODO debería desconectar al salir de la página
   function desconectar(){
     console.log('deconectar')
     desconexion()

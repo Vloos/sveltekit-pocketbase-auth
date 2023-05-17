@@ -26,7 +26,7 @@
 
     fetch('/api/partida',{
       method: 'PATCH',
-      headers: {'Content-Type': 'application/json'},
+      headers: {'Content-Type': 'application/json', 'type': 'edit'},
       body: JSON.stringify(datos),
     })
     .then(res => res.json())

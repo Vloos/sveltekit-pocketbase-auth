@@ -1,12 +1,7 @@
 <script>
 	import { goto } from "$app/navigation";
-  import {formateaFecha} from "$lib/utils"
 
 	export let partida = undefined
-
-  function handleClick(id){
-    goto(`/dj/administrar/${id}`)
-  }
 </script>
 
 {#if !partida}
@@ -20,6 +15,9 @@
     <span>{partida.nombre_campa}</span>
     <span>{partida.name_dj}</span>
     <span>{partida.nombre_pj}</span>
+    {#if partida.jugando}
+      <button on:click={goto(`/jugar/${partida.id}`)}>Jugar</button>
+    {/if}
   </article>
 {/if}
 

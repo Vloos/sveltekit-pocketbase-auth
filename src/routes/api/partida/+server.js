@@ -33,19 +33,34 @@ export const PATCH = async (event) => {
   if(!event.locals.user) return new Response('No identificado')
 
   let data = await event.request.json()
-  let id = data.id  
-  if(!data.nombre) return new Response(JSON.stringify({type: 'error', message: 'Campaña sin nombre'}), {status:400})
-  const datos = {
-    nombre: data.nombre,
-    descripcion: data.descripcion,
-  };
+  let id
+  let datos
+  let record
 
-  try{
-    const record = await event.locals.pb.collection('campana').update(id, datos);
-    return new Response(JSON.stringify({type: 'success', message: 'Datos cambiados', campa:record}), {status: 200})
-  } catch (err){
-    return new Response(JSON.stringify({type: 'error', message: err.message}), {status:400})
-  }
+  switch(event.request.headers.get('type')){
+    case 'edit':
+      id = data.id  
+      if(!data.nombre) return new Response(JSON.stringify({type: 'error', message: 'Campaña sin nombre'}), {status:400})
+      datos = {
+        nombre: data.nombre,
+        descripcion: data.descripcion,
+      };
+      try{
+        record = await event.locals.pb.collection('campana').update(id, datos);
+        return new Response(JSON.stringify({type: 'success', message: 'Datos cambiados', campa:record}), {status: 200})
+      } catch (err){
+        return new Response(JSON.stringify({type: 'error', message: err.message}), {status:400})
+      }
+      
+    case 'jugar':
+      id = data.id
+      try{
+        record = await event.locals.pb.collection('campana').update(id , {"jugando":data.jugando});
+        return new Response(JSON.stringify({type: 'success', message: 'Datos cambiados', campa:record}), {status: 200})
+      }catch(err){
+        return new Response(JSON.stringify({type: 'error', message: err.message}), {status:400})
+      }
+  }  
 }
 
 
@@ -75,8 +90,7 @@ export const GET = async (event) => {
   try{
     const record = await event.locals.pb.collection('campana').getOne(id)
     if (record.dj === uId){
-      console.log('DJ conectado')
-      return new Response(JSON.stringify({rype: 'success', message: 'Encontrado', data: record.dj}), {status: 200})
+      return new Response(JSON.stringify({type: 'success', message: 'Encontrado', data: record.dj}), {status: 200})
     } else{
       throw new Error('PJ conectado')
     }

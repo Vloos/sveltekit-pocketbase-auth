@@ -5,9 +5,10 @@ let socket
 const url = 'http://localhost:3000'
 
 export function conexion(userId, partidaId){
+  
   // comprobar en la bd si el director de partidaId es userId. Si es, role es 'dj', si no, role es 'pj'
   let role = 'pj'
-  
+
   fetch('/api/partida',{
     method: 'GET',
     headers: {
@@ -19,11 +20,15 @@ export function conexion(userId, partidaId){
   .then(res => res.json())
   .then(res =>{
     if(res.type === 'success') role = 'dj'
+    socketConfig(userId, partidaId, role)
   })
   .catch(err =>{
     console.log(err);
   })
+}
 
+
+function socketConfig(userId, partidaId, role){
   socket = io.connect(url,{
     auth: {
       token: userId,
@@ -33,21 +38,23 @@ export function conexion(userId, partidaId){
     reconnection: false
   })
   
-  
   socket.on("connect", () => {
-    //TODO si role es 'dj', cambiar en la partida 'jugando' a true
-    console.log(`Conectado a ${url}`);
-    //notifications.info(`Conectado a ${url}`, 2000)
-
-    //
+    console.log('sa conectao:', role)
+    //si role es 'dj', cambiar en la partida 'jugando' a true
+    if (role === 'dj'){
+      setJugando(true, partidaId)
+    }    
+    //notifications.info(`Sesión de juego iniciada como ${role === 'dj' ? 'director' : 'jugador'}`, 2000)
   });
 
   socket.on("disconnect", () => {
-    //TODO si role es 'dj', cambiar en la partida 'jugando' a false
+    // si role es 'dj', cambiar en la partida 'jugando' a false
+    if (role === 'dj'){
+      setJugando(false, partidaId)
+    }
     console.log(`Desconectado de ${url}`);
-    //notifications.info(`Desconectado de ${url}`, 2000)
+    //notifications.info(`Sesión de juego finalizada`, 2000)
   });
-
 
   socket.on('s:respuesta', data => {
     console.log(data.msg);
@@ -71,4 +78,24 @@ export function mandaSocket(evtName, data){
  */
 export function desconexion(){
   socket.disconnect()
+}
+
+
+
+function setJugando(jugando, id) {
+  const body = JSON.stringify({id, jugando})
+  fetch('/api/partida', {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json', 'type': 'jugar' },
+    body
+  })
+  .then(res => res.json())
+  .then(res => {
+    if (res.type === 'success') {
+      console.log(`Conectado a ${url}`)
+    }
+  })
+  .catch(err => {
+    console.log(err)
+  })
 }
