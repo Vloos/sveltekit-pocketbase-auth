@@ -58,7 +58,6 @@
     })
     .then(res => res.json())
     .then(res => {
-      console.log(res)
       if (res?.type === 'success'){
         notifications.success(res.message, 3000)
         goto(`/`)

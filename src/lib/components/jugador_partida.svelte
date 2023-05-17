@@ -4,7 +4,6 @@
   import { notifications } from '$lib/notificaciones'
   import { page } from '$app/stores'
 
-  console.log(jugador)
   
   /**
    * @param id id de este JUGADOR que tiene asignado un personaje
@@ -51,7 +50,6 @@
 
 
   function retirarJ(id){
-    console.log('Retirando jugador')
     const body = JSON.stringify({
       idJug: id,
     })
@@ -92,7 +90,6 @@
     const pj = $pjs.get(id)
     const j = jugador
 
-    console.log(`asignando ${pj.nombre} a ${jugador.jugador_username}`)
     $pjDragado = undefined
 
     // cambio optimista en la interfaz...

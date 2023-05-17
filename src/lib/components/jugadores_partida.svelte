@@ -8,7 +8,6 @@
   const emailRegExp = new RegExp(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/)
 
   function insertaJ() {
-    console.log('insertaJ')
     if (!emailRegExp.test(email)){
       notifications.warning('No se reconoce el email', 3000)
       return
@@ -48,7 +47,7 @@
   <header>Jugadores</header>
   <article class="botonera">
     <label for="email">Correo electrónico</label>
-    <input on:keypress={e => {keypress(e)}} type="email" name="email" bind:value={email}>
+    <input id="email" on:keypress={e => {keypress(e)}} type="email" name="email" bind:value={email}>
     <button on:click={insertaJ} disabled={!emailRegExp.test(email)}>Añadir Jugador</button>
   </article>
   {#if $js.size > 0}

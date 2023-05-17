@@ -1,5 +1,4 @@
 <script>
-  console.log('algo')
   import { closeModal } from 'svelte-modals';
   import { goto } from "$app/navigation";
   import { campDirigiendo } from '$lib/stores';
@@ -10,7 +9,6 @@
 
   function keyPress(e){
     if (e.shiftKey && e.charCode === 13) {
-      console.log('meh')  
       crearPartida()
     }
   }

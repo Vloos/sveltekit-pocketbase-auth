@@ -13,7 +13,6 @@ export const DELETE = async (event) =>{
 
   // Buscar el jugador de la campaña que tenga el pj asignado
   try{
-    console.log(`pj = "${id}"`)
     idJug = await event.locals.pb.collection('campana_jugadores').getFirstListItem(`pj = "${id}"`)
     idJug = idJug.id
   }catch (err){

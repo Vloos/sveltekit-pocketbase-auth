@@ -3,7 +3,7 @@ import {error, redirect, fail} from '@sveltejs/kit'
 
 
 export const load = async ({ locals }) =>{
-  console.log('Page Load')
+  //console.log('Page Load')
 
 
   if (locals.user){
@@ -47,7 +47,6 @@ export const load = async ({ locals }) =>{
 
 export const actions = {
   login: async ({request, locals}) => {
-    console.log('LOGEANDO')
     const body = Object.fromEntries(await request.formData())
 
     try{
