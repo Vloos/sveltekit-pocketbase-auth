@@ -1,8 +1,11 @@
 import io from 'socket.io-client'
 
-
 let socket
+
+
+// TODO como recuperar la verdadera url a la que conectarse?
 const url = 'http://localhost:3000'
+
 
 export function conexion(userId, partidaId){
   
@@ -37,28 +40,41 @@ function socketConfig(userId, partidaId, role){
     },
     reconnection: false
   })
+
   
+  // cuando se conecta
   socket.on("connect", () => {
     console.log('sa conectao:', role)
     //si role es 'dj', cambiar en la partida 'jugando' a true
     if (role === 'dj'){
-      setJugando(true, partidaId)
+      //setJugando(true, partidaId)
     }    
     //notifications.info(`Sesión de juego iniciada como ${role === 'dj' ? 'director' : 'jugador'}`, 2000)
   });
 
+
+  // cuando se desconecta
   socket.on("disconnect", () => {
     // si role es 'dj', cambiar en la partida 'jugando' a false
     if (role === 'dj'){
-      setJugando(false, partidaId)
+      //setJugando(false, partidaId)
     }
     console.log(`Desconectado de ${url}`);
     //notifications.info(`Sesión de juego finalizada`, 2000)
   });
 
+
+  // cuando recive una respuesta normal
   socket.on('s:respuesta', data => {
     console.log(data.msg);
   })
+
+
+  // cuando se une a una sala
+  socket.on('s:roomunir', () => {
+    console.log('Usuario unido a la partida');
+  })
+
 }
 
 
@@ -92,7 +108,7 @@ function setJugando(jugando, id) {
   .then(res => res.json())
   .then(res => {
     if (res.type === 'success') {
-      console.log(`Conectado a ${url}`)
+      console.log((jugando ? 'Conectado a ' : 'Desconectado de ') + id);
     }
   })
   .catch(err => {

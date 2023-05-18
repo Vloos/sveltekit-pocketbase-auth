@@ -91,8 +91,8 @@ export const GET = async (event) => {
     const record = await event.locals.pb.collection('campana').getOne(id)
     if (record.dj === uId){
       return new Response(JSON.stringify({type: 'success', message: 'Encontrado', data: record.dj}), {status: 200})
-    } else{
-      throw new Error('PJ conectado')
+    } else {
+      return new Response(JSON.stringify({type: 'error', message: 'No encontrado'}), {status: 404})
     }
   }catch (err){
     console.log(err)
