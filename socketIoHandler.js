@@ -21,19 +21,19 @@ export default function injectSocketIO(server) {
 		if (socket.handshake.auth.role === 'dj') socketsDj.set(partida, socket)
   
     
-    
-		
-
 		/* Que pasa cuando el socket se desconecta */
 		socket.on('disconnect', () => {
 			console.log('desconectado::', socket.handshake.auth.token);
+			io.to(partida).emit('s:roomsalir', token)
 		});
 
 
-		/* Que pasa cuando se manda un mensaje de prueba*/
-		socket.on('c:manda', (data) => {
-			console.log(data);
-			socket.emit('s:respuesta', { msg: 'patata' });
+		/* Que pasa cuando se mandan datos de un personaje*/
+		socket.on('c:pj', (data, {idSala, idJ}) => {
+			// entiendase que si no hay idJ, el pj es para el dj de la sala
+			// si hay idJ, el pj es para ese jugador
+			const cliente = idJ ? socketsMap.get(idJ) : socketsDj.get(idSala)
+			cliente.emit('s:pj', { msg: data });
 		});
 
 

@@ -1,7 +1,7 @@
 import io from 'socket.io-client'
 
 let socket
-
+let dj
 
 // TODO como recuperar la verdadera url a la que conectarse?
 const url = 'http://localhost:3000'
@@ -64,15 +64,16 @@ function socketConfig(userId, partidaId, role){
   });
 
 
-  // cuando recive una respuesta normal
-  socket.on('s:respuesta', data => {
+  // cuando recive un personaje desde el servidor
+  socket.on('s:pj', data => {
     console.log(data.msg);
   })
 
 
   // cuando se une a una sala
-  socket.on('s:roomunir', () => {
-    console.log('Usuario unido a la partida');
+  socket.on('s:roomunir', (token) => {
+    console.log('Usuario unido a la partida:' + token);
+    // TODO ir a buscar en la base de datos a que nombre corresponde el token y poner notificación.
   })
 
 }
@@ -82,10 +83,10 @@ function socketConfig(userId, partidaId, role){
  * Envía datos por el socket
  * @param {String} evtName nombre del evento al que atiende el servidor
  * @param {Any} data datos enviados por el socket
+ * @param {{idSala: String, idJ: String }} ids id de la sala, id del jugador
  */
-export function mandaSocket(evtName, data){
-  data={...data, de:socket.id}
-  if (socket) socket.emit(evtName, data)
+export function mandaSocket(evtName, data, ids){
+  if (socket) socket.emit(evtName, data, ids)
 }
 
 
