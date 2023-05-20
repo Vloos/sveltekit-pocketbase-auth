@@ -11,7 +11,7 @@ export default function injectSocketIO(server) {
 		const {partida, token} = socket.handshake.auth;
 		// unir el socket a la sala que tenga el nombre del id de la partida.
 		socket.join(partida)
-		io.to(partida).emit('s:roomunir', token);
+		socket.to(partida).emit('s:roomunir', token);
 
 		// guardar el socket en colección de sockets. La id del usuario es la clave del mapa.
 		socketsMap.set(token, socket)
@@ -24,7 +24,7 @@ export default function injectSocketIO(server) {
 		/* Que pasa cuando el socket se desconecta */
 		socket.on('disconnect', () => {
 			console.log('desconectado::', socket.handshake.auth.token);
-			io.to(partida).emit('s:roomsalir', token)
+			socket.to(partida).emit('s:roomsalir', token)
 		});
 
 

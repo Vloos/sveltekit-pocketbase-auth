@@ -1,14 +1,11 @@
 import io from 'socket.io-client'
+import { browser } from '$app/environment'
 
 let socket
-let dj
-
-// TODO como recuperar la verdadera url a la que conectarse?
-const url = 'http://localhost:3000'
+const url = browser ? window.parent.location.origin : ''
 
 
 export function conexion(userId, partidaId){
-  
   // comprobar en la bd si el director de partidaId es userId. Si es, role es 'dj', si no, role es 'pj'
   let role = 'pj'
 
@@ -73,7 +70,13 @@ function socketConfig(userId, partidaId, role){
   // cuando se une a una sala
   socket.on('s:roomunir', (token) => {
     console.log('Usuario unido a la partida:' + token);
-    // TODO ir a buscar en la base de datos a que nombre corresponde el token y poner notificación.
+    // Ir a la bd y sacar la lista de jugadores (nombre e id) para identificar a los jugadores de la sala, los que entran y los que salen.
+  })
+
+
+  // cuando sale de una sala
+  socket.on('s:roomsalir', (token) => {
+    console.log('Usuario sale de la partida:' + token);
   })
 
 }
