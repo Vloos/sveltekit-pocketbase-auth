@@ -72,6 +72,7 @@
 </script>
 
 
+
 <section>
   {#if editando}
   
@@ -97,6 +98,7 @@
 
   {/if}
 </section>
+
 
 
 <style>

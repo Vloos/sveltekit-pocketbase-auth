@@ -12,6 +12,8 @@
   };
 </script>
 
+
+
 <div class="notifications">
   {#each $notifications as notification (notification.id)}
     <div
@@ -25,6 +27,8 @@
     </div>
   {/each}
 </div>
+
+
 
 <style>
   .notifications {
@@ -41,7 +45,6 @@
     align-items: center;
     pointer-events: none;
     width: max-content;
-
   }
 
   .toast {

@@ -28,7 +28,7 @@ export default function injectSocketIO(server) {
 		});
 
 
-		/* Que pasa cuando se mandan datos de un personaje*/
+		/* Que pasa cuando se reciven datos de un personaje*/
 		socket.on('c:pj', (data, {idSala, idJ}) => {
 			// entiendase que si no hay idJ, el pj es para el dj de la sala
 			// si hay idJ, el pj es para ese jugador

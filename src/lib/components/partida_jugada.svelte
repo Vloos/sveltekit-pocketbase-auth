@@ -1,8 +1,9 @@
 <script>
 	import { goto } from "$app/navigation";
-
 	export let partida = undefined
 </script>
+
+
 
 {#if !partida}
 <header>
@@ -20,6 +21,7 @@
     {/if}
   </article>
 {/if}
+
 
 
 <style>

@@ -4,9 +4,9 @@
   let pass = fields?.password ?? ''
   let confpass = fields?.passwordConfirm ?? ''
   let email = fields?.email ?? ''
-
-
 </script>
+
+
 
 <form class="contenedor2" action="?/register" method="POST">
   <div class="formel">
@@ -49,6 +49,7 @@
 {/if}
 
 
+
 <style>
   .formel{
     display: grid;
@@ -63,14 +64,4 @@
   #confs{
     grid-column: 3 / 5;
   }
-  
-
-  /*
-  #chars, #confs, #connom {
-    text-align: end;
-    padding-right: 0.5rem;
-    font-size: 0.9rem;
-    pointer-events: none;
-  }
-*/
 </style>

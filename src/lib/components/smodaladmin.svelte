@@ -7,8 +7,6 @@
   /* Componentes modal */
   import { CrearPartidaModal } from '$lib/components'
 
-
-
   $amod = abrirModal
 
 

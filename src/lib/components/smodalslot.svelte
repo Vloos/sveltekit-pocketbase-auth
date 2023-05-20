@@ -14,8 +14,9 @@
 		if (e.code === 'Escape' && isOpen) closeModal()
 	}
 
-
 </script>
+
+
 
 <svelte:window on:keydown={handleKeydown}/>
 
@@ -31,8 +32,8 @@
 </div>
 
 
-<style>
 
+<style>
 	#topModal {
 		display: grid;
     grid-template-rows: min-content 30px;

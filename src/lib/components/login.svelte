@@ -22,6 +22,7 @@
 </script>
 
 
+
 <form class="contenedor2" action="?/login" method="POST" use:enhance={submitForm}>
   <div class="formel">
     <label for="username">Nombre</label>
@@ -33,6 +34,7 @@
   </div>
   <button type="submit" disabled={nombre.length < 3 || password.length < 8}>Identificarse</button>
 </form>
+
 
 
 <style>

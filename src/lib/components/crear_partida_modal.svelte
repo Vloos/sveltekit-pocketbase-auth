@@ -44,8 +44,6 @@
       }
     })
   }
-
-
 </script>
 
 
@@ -70,6 +68,7 @@
   ></textarea>
   <button on:click={crearPartida} disabled={nombre.length <= 3}>Crear</button>
 </article>
+
 
 
 <style>

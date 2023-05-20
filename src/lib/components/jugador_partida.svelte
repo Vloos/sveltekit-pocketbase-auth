@@ -4,7 +4,7 @@
   import { notifications } from '$lib/notificaciones'
   import { page } from '$app/stores'
 
-  
+
   /**
    * @param id id de este JUGADOR que tiene asignado un personaje
    */
@@ -136,7 +136,6 @@
   }
   
 </script>
-
 
 
 

@@ -66,7 +66,6 @@
 
 
 <style>
-
   section{
     max-height: 50vh;
     min-height: 170px;

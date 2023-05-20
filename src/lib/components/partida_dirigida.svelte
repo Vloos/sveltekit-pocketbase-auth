@@ -1,13 +1,10 @@
 <script>
 	import { goto } from "$app/navigation";
   import {formateaFecha} from "$lib/utils"
-
 	export let partida = undefined
-
-  function handleClick(id){
-    
-  }
 </script>
+
+
 
 {#if !partida}
   <header>

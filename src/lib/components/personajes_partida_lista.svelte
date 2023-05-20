@@ -110,6 +110,7 @@
 </section>
 
 
+
 <style>
   li{
     grid-template-columns: auto min-content;
