@@ -9,7 +9,7 @@ export const load = async ({params, locals}) =>{
   let campa = await locals.pb.collection('campana').getOne(params.k);
 
   if (campa.dj !== locals.user.id){
-    throw redirect(300, '/' )
+    throw redirect(303, '/' )
   }
 
   campa = serializeNonPOJOs(campa)

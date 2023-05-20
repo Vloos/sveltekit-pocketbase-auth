@@ -18,7 +18,7 @@ const config = {
 			envPrefix: '',
 			polyfill: true
 		})
-	}
+	},
 };
 
 export default config;

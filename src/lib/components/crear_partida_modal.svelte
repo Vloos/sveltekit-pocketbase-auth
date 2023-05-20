@@ -38,7 +38,7 @@
         $campDirigiendo.set(res.campa.id, res.campa)
         $campDirigiendo = $campDirigiendo
         closeModal()
-        goto(`/dj/administrar/${res.campa.id}`)
+        goto(`/dj/${res.campa.id}/administrar`)
       }else{
         notifications.warning(res.message, 2000)
       }
