@@ -1,8 +1,13 @@
 import io from 'socket.io-client'
 import { browser } from '$app/environment'
+import { updateTextos } from '../routes/dj/[k]/jugar/+page.svelte'
+import { env } from '$env/dynamic/public'
+
+console.log('socketport', env.PUBLIC_SOCKETPORT) 
 
 let socket
-const url = browser ? window.parent.location.origin : ''
+const url = browser ? window.parent.location.hostname : ''
+console.log('Url de socket io: ', url);
 
 
 export function conexion(userId, partidaId){
@@ -29,7 +34,7 @@ export function conexion(userId, partidaId){
 
 
 function socketConfig(userId, partidaId, role){
-  socket = io.connect(url,{
+  socket = io.connect(`http://${url}:${env.PUBLIC_SOCKETPORT}`,{
     auth: {
       token: userId,
       partida: partidaId,
@@ -63,7 +68,8 @@ function socketConfig(userId, partidaId, role){
 
   // cuando recive un personaje desde el servidor
   socket.on('s:pj', data => {
-    console.log(data.msg);
+    console.log('recivido:', data);
+    updateTextos(data)
   })
 
 

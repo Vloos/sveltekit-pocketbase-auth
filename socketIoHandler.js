@@ -4,7 +4,10 @@ const socketsMap = new Map();
 const socketsDj = new Map();
 
 export default function injectSocketIO(server) {
-	const io = new Server(server);
+	const io = new Server(server,  {cors: {
+    origin: "http://192.168.0.2:3000",
+    methods: ["GET", "POST"]
+  }});
 
 	io.on('connection', (socket) => {
 		console.log('Conectado:', socket.handshake.auth);
@@ -33,7 +36,7 @@ export default function injectSocketIO(server) {
 			// entiendase que si no hay idJ, el pj es para el dj de la sala
 			// si hay idJ, el pj es para ese jugador
 			const cliente = idJ ? socketsMap.get(idJ) : socketsDj.get(idSala)
-			cliente.emit('s:pj', { msg: data });
+			cliente.emit('s:pj', { msg: data, j: socket.handshake.auth.token });
 		});
 
 

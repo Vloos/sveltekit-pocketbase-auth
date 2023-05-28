@@ -16,8 +16,9 @@ import PersonajePartida from './components/personaje_partida.svelte'
 import BotonBorrar from './components/botonborrar.svelte'
 import Icons from './components/icons.svelte'
 import Notificacion from './components/notificacion.svelte'
+import ParticipantesLista from './components/participantes_lista.svelte'
 
 
 export { Notificacion, Icons, BotonBorrar, PersonajePartida, Login, Register, UserAvatar, PartidaDirigida, PartidasDirigidasLista, 
-  PartidaJugada, PartidasJugadasLista, InfoCampa, JugadoresPartida, 
+  PartidaJugada, PartidasJugadasLista, InfoCampa, JugadoresPartida, ParticipantesLista,
   JugadorPartida, SModalAdmin, SModalSlot, CrearPartidaModal, PersonajesPartidaLista}

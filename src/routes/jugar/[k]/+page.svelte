@@ -16,9 +16,9 @@
   }
 
   function manda(){
-    const data = {msg}
+    const datos = msg
     console.log('manda')
-    mandaSocket('c:pj', data, {idSala: $page.params.k})
+    mandaSocket('c:pj', datos, {idSala: $page.params.k})
   }
 </script>
 

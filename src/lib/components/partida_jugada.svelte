@@ -17,7 +17,7 @@
     <span>{partida.name_dj}</span>
     <span>{partida.nombre_pj}</span>
     {#if partida.jugando}
-      <button on:click={goto(`/jugar/${partida.id}`)}>Jugar</button>
+      <button on:click={goto(`/jugar/${partida.id_campa}`)}>Jugar</button>
     {/if}
   </article>
 {/if}

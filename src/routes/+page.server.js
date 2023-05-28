@@ -3,9 +3,6 @@ import {error, redirect, fail} from '@sveltejs/kit'
 
 
 export const load = async ({ locals }) =>{
-  console.log('Page Load')
-
-
   if (locals.user){
     let dirigiendo = new Map()
     let jugando = new Map()
