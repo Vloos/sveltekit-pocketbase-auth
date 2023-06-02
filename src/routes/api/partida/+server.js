@@ -80,6 +80,7 @@ export const DELETE = async (event) => {
 /**
  * LLamada cuando se inicia el jugar a una partida.
  * Comprueba que el jugador es el dj de la partida a la que se juega
+ * Asigna los roles dj o pj según la comprobación.
  */
 export const GET = async (event) => {
   if(!event.locals.user) return new Response('No identificado')
@@ -89,14 +90,14 @@ export const GET = async (event) => {
   
   try{
     const record = await event.locals.pb.collection('campana').getOne(id)
-    if (record.dj === uId){
-      return new Response(JSON.stringify({type: 'success', message: 'Encontrado', data: record.dj}), {status: 200})
-    } else {
-      return new Response(JSON.stringify({type: 'error', message: 'No encontrado'}), {status: 404})
-    }
+    return new Response(JSON.stringify({
+      type: 'success', 
+      message: 'Encontrado', 
+      data: record.dj === uId ? 'dj' : 'pj'
+    }), {status: 200})
   }catch (err){
     console.log(err)
-    return new Response(JSON.stringify({type: 'error', message: 'No encontrado'}), {status: 404})
+    return new Response(JSON.stringify({type: 'error', message: 'Error en el servidor'}), {status: 500})
   }
   
 

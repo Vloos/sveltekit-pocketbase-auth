@@ -8,7 +8,6 @@
   const emailRegExp = new RegExp(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/)
 
   function insertaJ() {
-    console.log('insertaJ')
     if (!emailRegExp.test(email)){
       notifications.warning('No se reconoce el email', 3000)
       return

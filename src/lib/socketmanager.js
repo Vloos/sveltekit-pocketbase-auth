@@ -1,7 +1,9 @@
 import io from 'socket.io-client'
 import { browser } from '$app/environment'
-import { updateTextos } from '../routes/dj/[k]/jugar/+page.svelte'
 import { env } from '$env/dynamic/public'
+import { writable } from 'svelte/store';
+
+export let mensajeDesdeServidor = writable()
 
 console.log('socketport', env.PUBLIC_SOCKETPORT) 
 
@@ -12,7 +14,7 @@ console.log('Url de socket io: ', url);
 
 export function conexion(userId, partidaId){
   // comprobar en la bd si el director de partidaId es userId. Si es, role es 'dj', si no, role es 'pj'
-  let role = 'pj'
+  let role = ''
 
   fetch('/api/partida',{
     method: 'GET',
@@ -24,7 +26,7 @@ export function conexion(userId, partidaId){
   })
   .then(res => res.json())
   .then(res =>{
-    if(res.type === 'success') role = 'dj'
+    if(res.type === 'success') role = res.data
     socketConfig(userId, partidaId, role)
   })
   .catch(err =>{
@@ -67,9 +69,8 @@ function socketConfig(userId, partidaId, role){
 
 
   // cuando recive un personaje desde el servidor
-  socket.on('s:pj', data => {
-    console.log('recivido:', data);
-    updateTextos(data)
+  socket.on('s:pj', (data,{de}) => {
+    mensajeDesdeServidor.set({data, de})
   })
 
 
@@ -85,6 +86,11 @@ function socketConfig(userId, partidaId, role){
     console.log('Usuario sale de la partida:' + token);
   })
 
+  // cuando el servidor de sockets envía un error
+  socket.on('s:error', data => {
+    console.error(`Error: ${data}`)
+  })
+
 }
 
 
@@ -92,10 +98,14 @@ function socketConfig(userId, partidaId, role){
  * Envía datos por el socket
  * @param {String} evtName nombre del evento al que atiende el servidor
  * @param {Any} data datos enviados por el socket
- * @param {{idSala: String, idJ: String }} ids id de la sala, id del jugador
+ * @param {{idSala: String, para: String }} ids id de la sala, id del jugador destino
  */
 export function mandaSocket(evtName, data, ids){
-  if (socket) socket.emit(evtName, data, ids)
+  if (socket){
+    socket.emit(evtName, data, ids)
+  } else{
+    console.error('No se puede transmitir')
+  }
 }
 
 

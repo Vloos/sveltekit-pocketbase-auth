@@ -24,7 +24,6 @@
     .then(res => res.json())
     .then(res => {
       if (res?.type === 'success') {
-        console.log(res.pj)
         $pjs.set(res.pj.id, res.pj)
         $pjs = $pjs
         notifications.success(res?.message, 3000)

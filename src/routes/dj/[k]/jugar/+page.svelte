@@ -1,40 +1,27 @@
-<script context="module">
-  export function updateTextos(loque){
-    console.log('updatando');
-    textos.set(loque)
-  }
-  export let textos = writable()
-  
-</script>
-
-
-
 <script>
-  import { conexion, desconexion, mandaSocket } from '$lib/socketmanager'
+  import { conexion, desconexion, mandaSocket, mensajeDesdeServidor } from '$lib/socketmanager'
   import { ParticipantesLista} from '$lib/components'
   import { browser } from '$app/environment';
   import { page } from '$app/stores'
-	import { writable } from 'svelte/store';
 	import { onMount } from 'svelte';
+  
   
   export let data
   let msg
-  let caja
-  let recivido
-  let mensaje
+  let recibido
   let usuario
   let listaParticipantes = []
-  let activo = ''
+  let idParticipante
+
 
   if (browser) console.log(data)
   
-  $: recivido = $textos && (data.js.get($textos.j)?.nombre || '') + ': ' + $textos.msg + '\n'
+  $: recibido = $mensajeDesdeServidor && (data.js.get($mensajeDesdeServidor.de)?.nombre || '') + ': ' + $mensajeDesdeServidor.data + '\n'
+
 
   onMount(() => {
     listaParticipantes = crearListaGeneral()
   })
-
-  //TODO clickando en un nombre de personaje / usuario
 
   
   //TODO debería conectar al entrar en esta página
@@ -42,16 +29,18 @@
     conexion(data.user.id, $page.params.k)
   }
 
+  
   //TODO debería desconectar al salir de la página
   function desconectar(){
     console.log('deconectar')
     desconexion()
   }
 
+
+  // msg durante las pruebas. Sustituirlo por los datos del personaje cuando eso
   function manda(){
     const datos = {msg}
-    console.log('manda')
-    mandaSocket('c:pj', datos, {idSala: $page.params.k})
+    mandaSocket('c:pj', datos, {idSala: $page.params.k, para: idParticipante})
   }
 
 /**
@@ -74,7 +63,8 @@
   }
 
   function clickar(cualo){
-    console.log('clickado: ' + cualo);
+    idParticipante = cualo
+    usuario = data.js.get(cualo)?.nombre
   }
 
 </script>
@@ -82,6 +72,7 @@
 
 
 <main>
+
   <section>
     <header>Jugando</header>
     <div class="botonera">
@@ -104,11 +95,10 @@
         </article>
         <article>
           <header>Respuesta</header>
-          <textarea bind:value={recivido}></textarea>
+          <textarea bind:value={recibido}></textarea>
         </article>
       </section>
     </div>
-
 
 </main>
 

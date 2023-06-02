@@ -7,7 +7,6 @@ export const PATCH = async event => {
     switch(event.request.headers.get('accion')){
       case 'mailVis':   // cambiar la visivilidad del email del usuario
         record = await event.locals.pb.collection('users').update(event.locals.user.id, JSON.stringify(data));
-        console.log(data, record.emailVisibility)
         return new Response(JSON.stringify({type: 'success', message: 'Visivilidad cambiada.', value: record.emailVisibility}), {status: 200})        
       case 'uName':  // cambiar el nombre de usuario del usuario
         record = await event.locals.pb.collection('users').update(event.locals.user.id, JSON.stringify(data));
