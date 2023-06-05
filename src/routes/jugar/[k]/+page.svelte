@@ -5,7 +5,7 @@
   let msg
   let recibido
 
-  $: recibido = $mensajeDesdeServidor.data.msg
+  $: recibido = $mensajeDesdeServidor && $mensajeDesdeServidor.data.msg
 
 
   //TODO debería conectar al entrar en esta página

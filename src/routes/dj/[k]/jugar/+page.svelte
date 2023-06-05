@@ -12,6 +12,7 @@
   let usuario
   let listaParticipantes = []
   let idParticipante
+  let pjEdit
 
 
   if (browser) console.log(data)
@@ -62,9 +63,11 @@
     return lista
   }
 
+
   function clickar(cualo){
     idParticipante = cualo
     usuario = data.js.get(cualo)?.nombre
+    pjEdit = data.pjs.get(idParticipante) || data.pjs.get(data.js.get(idParticipante).pj)
   }
 
 </script>
@@ -99,6 +102,9 @@
         </article>
       </section>
     </div>
+
+    <span>{pjEdit?.datos.nombre || ''}</span>
+    <span>{pjEdit?.datos.Arma || ''}</span>
 
 </main>
 
