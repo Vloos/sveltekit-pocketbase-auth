@@ -22,7 +22,7 @@
       </div>
     </div>
   {/if}
-  <h1>Gestor de juego</h1>
+  <h1>Cronista del Plano</h1>
 </header>
 <hr>
 
