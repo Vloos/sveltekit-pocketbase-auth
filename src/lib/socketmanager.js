@@ -51,7 +51,7 @@ function socketConfig(userId, partidaId, role){
     console.log('sa conectao:', role)
     //si role es 'dj', cambiar en la partida 'jugando' a true
     if (role === 'dj'){
-      //setJugando(true, partidaId)
+      setJugando(true, partidaId)
     }    
     //notifications.info(`Sesión de juego iniciada como ${role === 'dj' ? 'director' : 'jugador'}`, 2000)
   });
@@ -61,7 +61,7 @@ function socketConfig(userId, partidaId, role){
   socket.on("disconnect", () => {
     // si role es 'dj', cambiar en la partida 'jugando' a false
     if (role === 'dj'){
-      //setJugando(false, partidaId)
+      setJugando(false, partidaId)
     }
     console.log(`Desconectado de ${url}`);
     //notifications.info(`Sesión de juego finalizada`, 2000)
@@ -113,7 +113,7 @@ export function mandaSocket(evtName, data, ids){
  * Desconecta el socket
  */
 export function desconexion(){
-  socket.disconnect()
+  socket?.disconnect()
 }
 
 

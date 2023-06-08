@@ -1,5 +1,5 @@
 /** @type {import('./$types').RequestHandler} */
-
+import Personaje from '$lib/pj/Personaje';
 
 /**
  * borra el pj de la partida
@@ -73,9 +73,12 @@ export const POST = async (event) => {
   if(!event.locals.user) return new Response('No identificado')
 
   const data = await event.request.json()
+  
   try {
     let res = await event.locals.pb.collection('personajes').create(data)
     let pj = await event.locals.pb.collection('v_datos_campa_j').getFirstListItem(`id = "${res.id}"`)
+    const pjData = {datos: JSON.stringify(new Personaje(pj.nombre, pj.id))}
+    await event.locals.pb.collection('personajes').update(pj.id, pjData);
     return new Response(JSON.stringify({type: 'success', message:'Personaje creado', pj}), {status: 200})
   } catch (err) {
     return new Response(JSON.stringify({type: 'error', message:'No se pudo crear el personaje'}), {status: 200})

@@ -1,8 +1,10 @@
 <script>
+	import Personaje from '$lib/pj/Personaje';
 	import { pjs, pjDragado, js } from '$lib/stores'
   import { PersonajePartida, BotonBorrar } from '$lib/components'
   import { page } from '$app/stores'
 	import { notifications } from '$lib/notificaciones';
+  
 
   let nombre = ''
 
@@ -13,7 +15,7 @@
 
     const body = JSON.stringify({
       nombre: nombre,
-      campana: $page.params.k
+      campana: $page.params.k,
     })
 
     fetch('/api/pj',{

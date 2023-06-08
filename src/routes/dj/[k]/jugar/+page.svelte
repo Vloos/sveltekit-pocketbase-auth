@@ -3,7 +3,9 @@
   import { ParticipantesLista} from '$lib/components'
   import { browser } from '$app/environment';
   import { page } from '$app/stores'
-	import { onMount } from 'svelte';
+	import { onMount, onDestroy } from 'svelte';
+  import {Ficha} from '$lib/pjcomponents.js'
+  import Personaje from '$lib/pj/Personaje'
   
   
   export let data
@@ -20,18 +22,23 @@
   $: recibido = $mensajeDesdeServidor && (data.js.get($mensajeDesdeServidor.de)?.nombre || '') + ': ' + $mensajeDesdeServidor.data + '\n'
 
 
+  // comenzar sesión cuando se carga el componente
   onMount(() => {
     listaParticipantes = crearListaGeneral()
+    conectar()
+  })
+
+  // terminar sesión cuando el componente se destrulle
+  onDestroy(() => {
+    desconectar()
   })
 
   
-  //TODO debería conectar al entrar en esta página
   function conectar(){
     conexion(data.user.id, $page.params.k)
   }
 
   
-  //TODO debería desconectar al salir de la página
   function desconectar(){
     console.log('deconectar')
     desconexion()
@@ -68,6 +75,7 @@
     idParticipante = cualo
     usuario = data.js.get(cualo)?.nombre
     pjEdit = data.pjs.get(idParticipante) || data.pjs.get(data.js.get(idParticipante).pj)
+    pjEdit = pjEdit && Object.assign(new Personaje(), pjEdit.datos);
   }
 
 </script>
@@ -101,13 +109,11 @@
           <textarea bind:value={recibido}></textarea>
         </article>
       </section>
+
     </div>
-
-    <span>{pjEdit?.datos.nombre || ''}</span>
-    <span>{pjEdit?.datos.Arma || ''}</span>
-
 </main>
 
+<Ficha pj={pjEdit}/>
 
 
 <style>

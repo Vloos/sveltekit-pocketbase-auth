@@ -73,7 +73,7 @@ export const actions = {
     const body = Object.fromEntries(await request.formData())
 
     try{
-      await locals.pb.collection('users').create({...body, verified: 1})
+      await locals.pb.collection('users').create(body)
       // esperar a la verificación con email
       //await locals.pb.collection('users').requestVerification(body.email)
     } catch (err){

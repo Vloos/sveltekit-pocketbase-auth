@@ -1,12 +1,21 @@
 <script>
   import { conexion, desconexion, mandaSocket, mensajeDesdeServidor } from '$lib/socketmanager'
   import { page } from '$app/stores'
+	import { onMount, onDestroy } from 'svelte';
   export let data
   let msg
   let recibido
 
   $: recibido = $mensajeDesdeServidor && $mensajeDesdeServidor.data.msg
+  $: console.log('campa', data)
 
+  onMount(() => {
+    conectar()
+  })
+
+  onDestroy(() => {
+    desconectar()
+  })
 
   //TODO debería conectar al entrar en esta página
   function conectar(){
@@ -32,12 +41,8 @@
   <section>
     <header>Jugando</header>
     <div class="botonera">
-      <button on:click={conectar}>Conectar</button>
-      <button on:click={desconectar}>Desconectar</button>
-    </div>
-    <div class="botonera">
       <input type="text" name="msg" id="msg" bind:value={msg}>
-      <button on:click={manda}>Manda</button>
+      <button on:click={manda}>Envia a Dj ({data.campa.expand.dj.username})</button>
     </div>
   </section>
 
