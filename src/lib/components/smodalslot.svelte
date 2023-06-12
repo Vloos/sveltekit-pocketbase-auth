@@ -46,6 +46,7 @@
     position: fixed;
     background: #4448;
 		place-content: center;
+		backdrop-filter: blur(4px);
 	}
 
 	#modal {
