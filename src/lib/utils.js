@@ -48,3 +48,8 @@ export function generateRandomGradientCSS() {
   let gradient = "linear-gradient(" + deg + "deg, " + "#" + createHex() + ", " + "#" + createHex() +")";
   return gradient;
 }
+
+
+export const getImageURL = (coleccion, record, file, size = '0x0') => {
+return `http://127.0.0.1:8090/api/files/${coleccion}/${record}/${file}?thumb=${size}`
+}

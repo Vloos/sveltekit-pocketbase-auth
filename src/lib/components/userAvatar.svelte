@@ -1,21 +1,29 @@
 <script>
   import { generateRandomGradientCSS } from '$lib/utils'
 	import { onMount } from 'svelte';
-	
+  
+  export let url = ''
   export let nombre = undefined
+
   let avatar;
   let letra = nombre[0].toUpperCase()
 
   onMount(() => {
-    avatar.style.background =  generateRandomGradientCSS()
+//    avatar.style.background =  generateRandomGradientCSS()
   })
 </script>
 
 
 
-<div id="avatar" bind:this={avatar}>
-  {letra}  
-</div>
+{#if url}
+  <div id="avatar">
+    <img src={url} alt={`Avatar de ${nombre}`}>
+  </div>
+{:else}
+  <div id="avatar" bind:this={avatar}>
+    {letra}
+  </div>
+{/if}
 
 
 

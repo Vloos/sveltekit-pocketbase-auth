@@ -6,7 +6,10 @@
 
 {#if pj}
   <section>
-    <header>Características de {pj.nombre}</header>
+    <h3>{pj.nombre}</h3>
+  </section>
+  <section class="cara">
+    <header>Características</header>
     <ul>
       {#each Personaje.nombreCar as car, i (i)}
         <li>
@@ -25,21 +28,23 @@
     </ul>
   </section>
 
-  <section>
+  <section class="habs">
     <header>Habilidades</header>
     <ul>
       {#each Personaje.nombreHabs as hab, i (i)}
         <li>
           <article>
-            <header>{hab} <span>{Personaje.nombreCar[Personaje.habMods[i]]}</span></header> 
+            <header>{hab} <span class="mod">{Personaje.nombreCar[Personaje.habMods[i]]}</span></header> 
             <span>
               <input 
                 type="number"
                 min={Personaje.minMaxHabPuntos[0]}
                 max={Personaje.minMaxHabPuntos[1]}
                 bind:value={pj.habilidadesNivel[i]}
-                >
-                +{pj.habDatos(i).carNivel}
+              >
+            </span>
+            <span>
+              {pj.habDatos(i).carNivel > 0 ? '+': ''}{pj.habDatos(i).carNivel}
             </span>
             <span>
               {pj.habDatos(i).total}
@@ -50,3 +55,46 @@
     </ul>
   </section>
 {/if}
+
+
+<style>
+  section{
+    width: 800px;
+  }
+
+  .mod{
+    font-weight: 400;
+  }
+  .cara ul{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .cara ul li article{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .habs ul {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .habs ul li article{
+    display: grid;
+    grid-template-columns: 4fr repeat(3, 1fr);
+  }
+
+  span{
+    height: 100%;
+    display: grid;
+    align-items: stretch;
+    align-content: center;
+    justify-items: stretch;
+  }
+
+  input[type="number"]{
+    height: 100%;
+    max-height: 100%;
+    text-align: center;
+  }
+
+</style>

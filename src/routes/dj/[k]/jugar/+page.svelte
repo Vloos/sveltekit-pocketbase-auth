@@ -16,9 +16,6 @@
   let idParticipante
   let pjEdit
 
-
-  if (browser) console.log(data)
-  
   $: recibido = $mensajeDesdeServidor && (data.js.get($mensajeDesdeServidor.de)?.nombre || '') + ': ' + $mensajeDesdeServidor.data + '\n'
 
 
@@ -40,7 +37,6 @@
 
   
   function desconectar(){
-    console.log('deconectar')
     desconexion()
   }
 
@@ -84,12 +80,8 @@
 
 <main>
 
-  <section>
-    <header>Jugando</header>
-    <div class="botonera">
-      <button on:click={conectar}>Conectar</button>
-      <button on:click={desconectar}>Desconectar</button>
-    </div>
+  <section class="titulocampa">
+    <h2>{data.campa.nombre}</h2>
   </section>
 
   <div class="central">
@@ -111,15 +103,16 @@
       </section>
 
     </div>
+    <Ficha pj={pjEdit}/>
 </main>
 
-<Ficha pj={pjEdit}/>
 
 
 <style>
   div.central{
     display: grid;
     grid-template-columns: max-content auto;
+    width: 800px;
   }
 
   .botonera button{

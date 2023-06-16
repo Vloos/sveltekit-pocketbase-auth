@@ -25,7 +25,6 @@ export default function socketServer(){
   const socketsDj = new Map();
   
   io.on('connection', (socket) => {
-    console.log('Conectado:', socket.handshake.auth);
     const {partida, token} = socket.handshake.auth;
     // unir el socket a la sala que tenga el nombre del id de la partida.
     socket.join(partida)
@@ -41,7 +40,6 @@ export default function socketServer(){
     
     /* Que pasa cuando el socket se desconecta */
     socket.on('disconnect', () => {
-      console.log('desconectado::', socket.handshake.auth.token);
       socket.to(partida).emit('s:roomsalir', token)
     });
   

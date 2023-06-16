@@ -48,7 +48,6 @@ function socketConfig(userId, partidaId, role){
   
   // cuando se conecta
   socket.on("connect", () => {
-    console.log('sa conectao:', role)
     //si role es 'dj', cambiar en la partida 'jugando' a true
     if (role === 'dj'){
       setJugando(true, partidaId)
@@ -63,7 +62,6 @@ function socketConfig(userId, partidaId, role){
     if (role === 'dj'){
       setJugando(false, partidaId)
     }
-    console.log(`Desconectado de ${url}`);
     //notifications.info(`Sesión de juego finalizada`, 2000)
   });
 
