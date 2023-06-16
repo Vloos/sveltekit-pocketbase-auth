@@ -1,17 +1,10 @@
 <script>
-	import { getImageURL } from '$lib/utils.js';
+	
 	import { goto } from '$app/navigation';
 	import { UserAvatar, SModalAdmin, Notificacion} from '$lib/components'
 
   export let data
   import '../app.css'
-
-  let file = data.user?.avatar
-  let coleccion = data.user?.collectionId
-  let record = data.user?.id
-  let size = '50x50'
-
-  let url = Boolean(file) && getImageURL(coleccion, record, file, size)
 
 </script>
 
@@ -25,7 +18,7 @@
       <a class="identidad" href="/perfil">
         <span class="usrname">{data.user.username}</span>
       </a>
-      <UserAvatar nombre = {data.user.username} {url}/>
+      <UserAvatar />
       <div class="botonera">
         <form action="/logout" method="POST">
           <button type="submit">Salir</button>
