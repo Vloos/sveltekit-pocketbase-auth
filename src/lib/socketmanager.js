@@ -67,8 +67,9 @@ function socketConfig(userId, partidaId, role){
 
 
   // cuando recive un personaje desde el servidor
-  socket.on('s:pj', (data,{de}) => {
-    mensajeDesdeServidor.set({data, de})
+  socket.on('s:pj', ({data, j}) => {
+    mensajeDesdeServidor.set({data, j})
+    console.log('desdeServer', {data, j});
   })
 
 

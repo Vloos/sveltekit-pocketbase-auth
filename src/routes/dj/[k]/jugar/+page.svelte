@@ -16,7 +16,7 @@
   let idParticipante
   let pjEdit
 
-  $: recibido = $mensajeDesdeServidor && (data.js.get($mensajeDesdeServidor.de)?.nombre || '') + ': ' + $mensajeDesdeServidor.data + '\n'
+  $: recibido = $mensajeDesdeServidor && (data.js.get($mensajeDesdeServidor.j)?.nombre || '') + ': ' + $mensajeDesdeServidor.data + '\n'
 
 
   // comenzar sesión cuando se carga el componente

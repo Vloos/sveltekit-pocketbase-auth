@@ -45,11 +45,11 @@ export default function socketServer(){
   
   
     /* Que pasa cuando se reciven datos de un personaje*/
-    socket.on('c:pj', (data, {idSala, idJ}) => {
+    socket.on('c:pj', (data, {idSala, para}) => {
       // entiendase que si no hay idJ, el pj es para el dj de la sala
       // si hay idJ, el pj es para ese jugador
-      const cliente = idJ ? socketsMap.get(idJ) : socketsDj.get(idSala)
-      cliente.emit('s:pj', { msg: data, j: socket.handshake.auth.token });
+      const cliente = para ? socketsMap.get(para) : socketsDj.get(idSala)
+      cliente.emit('s:pj', { data, j: socket.handshake.auth.token });
     });
   });
 }
