@@ -49,7 +49,11 @@ export default function socketServer(){
       // entiendase que si no hay idJ, el pj es para el dj de la sala
       // si hay idJ, el pj es para ese jugador
       const cliente = para ? socketsMap.get(para) : socketsDj.get(idSala)
-      cliente.emit('s:pj', { data, j: socket.handshake.auth.token });
+      if (cliente){
+        cliente.emit('s:pj', { data, j: socket.handshake.auth.token });
+      } else {
+        socket.emit('s:error', data='Participante sin conexión')
+      }
     });
   });
 }

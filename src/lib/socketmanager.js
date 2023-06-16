@@ -5,11 +5,9 @@ import { writable } from 'svelte/store';
 
 export let mensajeDesdeServidor = writable()
 
-console.log('socketport', env.PUBLIC_SOCKETPORT) 
-
 let socket
 const url = browser ? window.parent.location.hostname : ''
-console.log('Url de socket io: ', url);
+
 
 
 export function conexion(userId, partidaId){
@@ -69,7 +67,6 @@ function socketConfig(userId, partidaId, role){
   // cuando recive un personaje desde el servidor
   socket.on('s:pj', ({data, j}) => {
     mensajeDesdeServidor.set({data, j})
-    console.log('desdeServer', {data, j});
   })
 
 

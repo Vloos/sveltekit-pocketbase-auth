@@ -284,14 +284,13 @@ button:disabled{
 }
 
 .pesta header button{
-  border: 1px solid var(--bg-2);
-  border-bottom: 1px solid var(--borde);
+  border: none;
   cursor: pointer;
+  background-color: var(--bg-int);
 }
 
 .pesta header button.seleccionado{
-  border: 1px solid var(--borde);
-  border-bottom: none;
+  border:none;
   background-color: var(--bg-2);
   font-weight: bold;
   cursor: auto;
@@ -299,8 +298,8 @@ button:disabled{
 }
 
 .pesta article{
-  border: 1px solid var(--borde);
-  border-top: none;
+  /* border: 1px solid var(--borde);
+  border-top: none; */
   background-color: var(--bg-2);
 }
 

@@ -19,6 +19,5 @@ export const handle = async ({event, resolve}) => {
 
   response.headers.set('set-cookie', event.locals.pb.authStore.exportToCookie({secure: false}))   // establece la cookie con el último acceso válido
 
-  console.log(`${response.status}`)
   return response
 }

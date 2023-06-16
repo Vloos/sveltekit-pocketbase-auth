@@ -55,6 +55,7 @@
 
   .pesta{
     width: 800px;
+    backdrop-filter: blur(20px);
   }
 
   article{
