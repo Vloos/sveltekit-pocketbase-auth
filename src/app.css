@@ -12,26 +12,48 @@
   -webkit-font-smoothing: antialiased;
   /*-moz-osx-font-smoothing: grayscale;*/
   /*-webkit-text-size-adjust: 100%;*/
-  --padding-global: 8px;
+  --padding-global: 4px;
   --bg-hover-mod: 3%;
-  --bg-2-contraste: 8%;
+  --bg-2-contraste: 13%;
 
   /* Color de fondo principal */
-  --bg-main-a: .4;
+  --bg-main-a: 0.4;
   --bg-main-h: 0;
   --bg-main-s: 0%;
-  --bg-main-l: 5%;
+  --bg-main-l: 0%;
   --bg-main: hsla(var(--bg-main-h), var(--bg-main-s), var(--bg-main-l), var(--bg-main-a));
   --bg-main-hov-h: var(--bg-main-h);
   --bg-main-hov-s: var(--bg-main-s);
   --bg-main-hov-l: calc(var(--bg-main-l) + var(--bg-hover-mod));
   --bg-main-hov: hsl(var(--bg-main-hov-h), var(--bg-main-hov-s), var(--bg-main-hov-l));
 
+  /* Fondo para titulos */
+  --bg-titulo-a: var(--bg-main-a);
+  --bg-titulo-h: var(--bg-main-h);
+  --bg-titulo-s: var(--bg-main-s);
+  --bg-titulo-l: var(--bg-main-l);
+  --bg-titulo: hsla(var(--bg-titulo-h), var(--bg-titulo-s), var(--bg-titulo-l), var(--bg-titulo-a));
+  --bg-titulo-hov-h: var(--bg-titulo-h);
+  --bg-titulo-hov-s: var(--bg-titulo-s);
+  --bg-titulo-hov-l: calc(var(--bg-titulo-l) + var(--bg-hover-mod));
+  --bg-titulo-hov: hsl(var(--bg-titulo-hov-h), var(--bg-titulo-hov-s), var(--bg-titulo-hov-l));
+
+  --bg-titulo2-a: var(--bg-main-a);
+  --bg-titulo2-h: var(--bg-main-h);
+  --bg-titulo2-s: var(--bg-main-s);
+  --bg-titulo2-l: calc(var(--bg-titulo-l) + var(--bg-2-contraste));
+  --bg-titulo2: hsla(var(--bg-titulo2-h), var(--bg-titulo2-s), var(--bg-titulo2-l), var(--bg-titulo2-a));
+  --bg-titulo2-hov-h: var(--bg-titulo2-h);
+  --bg-titulo2-hov-s: var(--bg-titulo2-s);
+  --bg-titulo2-hov-l: calc(var(--bg-titulo2-l) + var(--bg-hover-mod));
+  --bg-titulo2-hov: hsl(var(--bg-titulo2-hov-h), var(--bg-titulo2-hov-s), var(--bg-titulo2-hov-l));
+
+
   /* Color de fondo secundario*/
   --bg-2-a: var(--bg-main-a);
   --bg-2-h: var(--bg-main-h);
   --bg-2-s: var(--bg-main-s);
-  --bg-2-l: calc(var(--bg-main-l) + var(--bg-2-contraste));
+  --bg-2-l: calc(var(--bg-titulo2-l) + var(--bg-2-contraste));
   --bg-2: hsla(var(--bg-2-h), var(--bg-2-s), var(--bg-2-l), var(--bg-2-a));
   --bg-2-hov-h: var(--bg-2-h);
   --bg-2-hov-s: var(--bg-2-s);
@@ -155,14 +177,20 @@ section, .contenedor{
 }
 
 
-section header, .titulo{
+section header, .titulo, .titulo2{
   display: grid;
 	width: 100%;
 	height: 100%;
-	background-color: var(--bg-main);
+	background-color: var(--bg-titulo);
 	font-weight: bold;
 	padding: var(--padding-global);
+  padding: 8px;
 }
+
+.titulo2 {
+  background-color: var(--bg-titulo2);
+}
+
 
 section > p{
   padding: var(--padding-global);

@@ -90,6 +90,7 @@
     {/if}
     <p>{formateaFecha(campa.created,'long', 'short')}</p>
     <div class="botonera">
+      <button id="jugarButton" on:click={() => {goto(`/dj/${campa.id}/jugar`)}}>Jugar</button>
       <button on:click={editar}>Editar</button>
       <button>Exportar</button>
       <button on:click={borrar}>Eliminar</button>
@@ -103,6 +104,11 @@
 <style>
   section{
     width: 800px;
+  }
+
+  #jugarButton{
+    flex-basis: 33%;
+    flex-shrink: 0;
   }
 
   input[type="text"]{

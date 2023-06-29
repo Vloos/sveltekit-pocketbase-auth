@@ -137,11 +137,7 @@
 
 
 
-<div>
-  {#if !jugador}
-    <span>Nombre</span>
-    <span>Personaje</span>
-  {:else}
+<article>
     <div>
       <span>{jugador.jugador_username}</span>
       <button on:click={() => retirarJ(jugador.id)}>Retirar jugador</button>
@@ -153,7 +149,7 @@
       </div>
     {:else}
       <div
-        class:objetivo={$pjDragado}
+      class:objetivo={$pjDragado}
         on:drop={() => {asignarPj($pjDragado, jugador)}} 
         on:dragenter|preventDefault 
         on:dragover|preventDefault
@@ -162,25 +158,26 @@
         <span>Arrastra aquí un personaje para asignar</span>
       </div>
     {/if}
-  {/if}
-</div>
+</article>
 
 
 
 <style>
-  div{
+  article{
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     height: 100%;
   }
 
-  div > div {
+  article > div {
+    display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: 1fr 1fr;
+    height: 100%;
   }
 
   .objetivo{
     outline: 1px dashed var(--borde);
-    outline-offset: -4px;
+    outline-offset: -1px;
   }
 </style>

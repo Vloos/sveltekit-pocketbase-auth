@@ -29,7 +29,7 @@
   
   function manda(){
     const datos = msg
-    mandaSocket('c:pj', datos, {idSala: $page.params.k})
+    mandaSocket('c:pj', datos, {idSala: $page.params.k, para: data.campa.dj})
   }
 </script>
 

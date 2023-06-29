@@ -7,7 +7,7 @@
   let email
   const emailRegExp = new RegExp(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/)
 
-  function insertaJ() {
+  function insertaJ() {º
     if (!emailRegExp.test(email)){
       notifications.warning('No se reconoce el email', 3000)
       return
@@ -51,7 +51,7 @@
     <button on:click={insertaJ} disabled={!emailRegExp.test(email)}>Añadir Jugador</button>
   </article>
   {#if $js.size > 0}
-    <header><JugadorPartida/></header>
+    <header><span>Jugador</span><span>Personaje</span></header>
   {/if}
   <ul>
     {#each [...$js] as [k, jugador] (k)}
@@ -73,6 +73,11 @@
 
   section.nadie{
     min-height:auto;
+  }
+
+  section > header{
+    display: flex;
+    justify-content: center
   }
 
 
