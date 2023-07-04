@@ -2,14 +2,13 @@ import io from 'socket.io-client'
 import { browser } from '$app/environment'
 import { env } from '$env/dynamic/public'
 import { writable } from 'svelte/store';
+import { notifications } from '$lib/notificaciones';
 
 export let mensajeDesdeServidor = writable()
 
-console.log('socketport', env.PUBLIC_SOCKETPORT) 
-
 let socket
 const url = browser ? window.parent.location.hostname : ''
-console.log('Url de socket io: ', url);
+
 
 
 export function conexion(userId, partidaId){
@@ -48,12 +47,11 @@ function socketConfig(userId, partidaId, role){
   
   // cuando se conecta
   socket.on("connect", () => {
-    console.log('sa conectao:', role)
     //si role es 'dj', cambiar en la partida 'jugando' a true
     if (role === 'dj'){
-      //setJugando(true, partidaId)
+      setJugando(true, partidaId)
     }    
-    //notifications.info(`Sesión de juego iniciada como ${role === 'dj' ? 'director' : 'jugador'}`, 2000)
+    notifications.info(`Sesión de juego iniciada como ${role === 'dj' ? 'director' : 'jugador'}`, 2000)
   });
 
 
@@ -61,16 +59,15 @@ function socketConfig(userId, partidaId, role){
   socket.on("disconnect", () => {
     // si role es 'dj', cambiar en la partida 'jugando' a false
     if (role === 'dj'){
-      //setJugando(false, partidaId)
+      setJugando(false, partidaId)
     }
-    console.log(`Desconectado de ${url}`);
-    //notifications.info(`Sesión de juego finalizada`, 2000)
+    notifications.info(`Sesión de juego finalizada`, 2000)
   });
 
 
   // cuando recive un personaje desde el servidor
-  socket.on('s:pj', (data,{de}) => {
-    mensajeDesdeServidor.set({data, de})
+  socket.on('s:pj', ({data, j}) => {
+    mensajeDesdeServidor.set({data, j})
   })
 
 
@@ -113,7 +110,7 @@ export function mandaSocket(evtName, data, ids){
  * Desconecta el socket
  */
 export function desconexion(){
-  socket.disconnect()
+  socket?.disconnect()
 }
 
 

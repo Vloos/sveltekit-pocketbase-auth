@@ -1,8 +1,10 @@
 <script>
+	import Personaje from '$lib/pj/Personaje';
 	import { pjs, pjDragado, js } from '$lib/stores'
   import { PersonajePartida, BotonBorrar } from '$lib/components'
   import { page } from '$app/stores'
 	import { notifications } from '$lib/notificaciones';
+  
 
   let nombre = ''
 
@@ -13,7 +15,7 @@
 
     const body = JSON.stringify({
       nombre: nombre,
-      campana: $page.params.k
+      campana: $page.params.k,
     })
 
     fetch('/api/pj',{
@@ -89,35 +91,36 @@
     >Crear personaje</button>
   </article>
   {#if $pjs.size > 0}
-    <header><PersonajePartida/></header>
+    <PersonajePartida/>
+    <ul>
+      {#each [...$pjs] as [k, pj] (k)}
+        <li 
+          
+          >
+          <article class="pj">
+            <PersonajePartida {pj}/>
+            <BotonBorrar on:borrar={() => borrarPj(k)}/>
+          </article>
+        </li>
+      {/each}
+    </ul>
+  {:else}
+      <article>Sin Personajes</article>
   {/if}
-  <ul>
-    {#each [...$pjs] as [k, pj] (k)}
-      <li 
-        class="contenedor2" 
-        draggable={!pj.id_jugador} 
-        on:dragstart={() => {$pjDragado = k}}
-        on:dragend={() => {$pjDragado = undefined}}
-        >
-        <PersonajePartida {pj}/>
-        <BotonBorrar on:borrar={() => borrarPj(k)}/>
-      </li>
-    {:else}
-      <li><article>Sin Personajes</article></li>
-    {/each}
-  </ul>
+  
 </section>
 
 
 
 <style>
-  li{
-    grid-template-columns: auto min-content;
-  }
-
   section{
     width: 800px;
     max-height: 50vh;
+  }
+
+  .pj{
+    display: grid;
+    grid-template-columns: auto min-content;
   }
 
   label{

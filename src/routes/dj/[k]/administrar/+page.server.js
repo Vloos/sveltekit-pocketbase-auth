@@ -3,7 +3,6 @@ import { redirect } from '@sveltejs/kit';
 
 
 export const load = async ({params, locals}) =>{
-  //console.log('LOAD');
   if (!locals.user) throw redirect(303, '/')
 
   let campa = await locals.pb.collection('campana').getOne(params.k);

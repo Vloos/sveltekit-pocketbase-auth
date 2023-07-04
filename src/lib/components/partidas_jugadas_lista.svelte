@@ -25,4 +25,5 @@
     max-height: 50vh;
     min-width: 170px;
   }
+  
 </style>

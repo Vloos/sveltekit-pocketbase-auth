@@ -115,4 +115,4 @@ Para crear un personaje, introduce el nombre en el campo etiquetado como _Nombre
 Para borrar el personaje, pulsa el botón a la derecha, con el icono de un cubo de la basura, titulado _Borrar_, y vuelve a pulsarlo para confirmar el borrado, o pulsa en otro lugar para cancelar.
 
 ### Editor de perfil
-La pantalla de editor de perfil presenta un panel en el que el usuario puede cambiar el nombre, el email y la situación de visivilidad del mismo, y cambiar la contraseña. También puede ver la fecha de creación de la cuenta de usuario.
+La pantalla de editor de perfil presenta un panel en el que el usuario puede cambiar el nombre, el email y la situación de visibilidad del mismo, y cambiar la contraseña. También puede ver la fecha de creación de la cuenta de usuario.

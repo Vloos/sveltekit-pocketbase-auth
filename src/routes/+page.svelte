@@ -12,8 +12,6 @@
   let secciones = ['Identifícate', 'Regístrate']
   let seccionActiva = form?.error ? 1 : 0
 
-  //$: console.log('DATA:', data)
-
   $: $campJugando = data.jugando
   $: $campDirigiendo = data.dirigiendo
 
@@ -57,6 +55,7 @@
 
   .pesta{
     width: 800px;
+    backdrop-filter: blur(20px);
   }
 
   article{

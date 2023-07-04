@@ -20,38 +20,39 @@ export default function socketServer(){
   const io = new Server(port,{cors: corsOptions})
   console.log(`Escuchando sockets en puerto ${port}`);
   
-  
-  const socketsMap = new Map();
-  const socketsDj = new Map();
-  
+  const socketsRooms = new Map()
+
   io.on('connection', (socket) => {
-    console.log('Conectado:', socket.handshake.auth);
     const {partida, token} = socket.handshake.auth;
     // unir el socket a la sala que tenga el nombre del id de la partida.
     socket.join(partida)
+    // guardar el socket en colección de sockets. Cuando se crea una nueva sala, se crea un map que contendrá los sockets de la sala
+    if (!socketsRooms.get(partida)) socketsRooms.set(partida, new Map())
+    // Meter al usuario en el map de la sala. 
+    // Con esto, si el usuario A está en partida X e Y, pero conectado solo a partida Y, personajes de la partida X no lo encuentren conectado a la partida X, y no le puedan enviar mensajes.
+    socketsRooms.get(partida).set(token, socket);
+    // Se mana el mensaje que confirma la unión a una sala
     socket.to(partida).emit('s:roomunir', token);
   
-    // guardar el socket en colección de sockets. La id del usuario es la clave del mapa.
-    socketsMap.set(token, socket)
-  
-    // El caso es que el usuario conectado, si es pj, puede sacar la id del dj de la bd
-    //Si el usuario es dj, se guarda en map la id de la partida, y el socket del dj
-    if (socket.handshake.auth.role === 'dj') socketsDj.set(partida, socket)
-  
-    
+
     /* Que pasa cuando el socket se desconecta */
     socket.on('disconnect', () => {
-      console.log('desconectado::', socket.handshake.auth.token);
       socket.to(partida).emit('s:roomsalir', token)
+      // Se borra al usuario de la lista de usuarios de la sala
+      socketsRooms.get(partida).delete(token)
     });
   
   
     /* Que pasa cuando se reciven datos de un personaje*/
-    socket.on('c:pj', (data, {idSala, idJ}) => {
+    socket.on('c:pj', (data, {idSala, para}) => {
       // entiendase que si no hay idJ, el pj es para el dj de la sala
       // si hay idJ, el pj es para ese jugador
-      const cliente = idJ ? socketsMap.get(idJ) : socketsDj.get(idSala)
-      cliente.emit('s:pj', { msg: data, j: socket.handshake.auth.token });
+      const cliente = socketsRooms.get(idSala).get(para)
+      if (cliente){
+        cliente.emit('s:pj', { data, j: socket.handshake.auth.token });
+      } else {
+        socket.emit('s:error', data='Participante sin conexión')
+      }
     });
   });
 }

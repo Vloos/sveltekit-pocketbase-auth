@@ -44,8 +44,9 @@
 		right: 0;
 		bottom: 0;
     position: fixed;
-    background: #4448;
+    background: #1118;
 		place-content: center;
+		backdrop-filter: blur(12px);
 	}
 
 	#modal {

@@ -12,7 +12,6 @@ export const handle = async ({event, resolve}) => {
   if (event.locals.pb.authStore.isValid){
     event.locals.user = serializeNonPOJOs(event.locals.pb.authStore.model)  // si es correcto, coge el modelo del almacén de autorización
   } else {
-    //console.log('INDENTIFICACION MAL')
     event.locals.user = undefined   // si es incorrecta, no hay usuario
   }
 
@@ -20,6 +19,5 @@ export const handle = async ({event, resolve}) => {
 
   response.headers.set('set-cookie', event.locals.pb.authStore.exportToCookie({secure: false}))   // establece la cookie con el último acceso válido
 
-  console.log(`${response.status}`)
   return response
 }

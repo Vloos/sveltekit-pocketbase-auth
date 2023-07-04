@@ -6,7 +6,7 @@
 
 
 {#if !partida}
-<header>
+<header class='titulo2'>
   <span>Nombre</span>
   <span>Director</span>
   <span>Personaje</span>

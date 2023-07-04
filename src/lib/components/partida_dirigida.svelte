@@ -7,7 +7,7 @@
 
 
 {#if !partida}
-  <header>
+  <header class="titulo2">
     <span>Nombre</span>
     <span>Descripción</span>
     <span>Fecha de creación</span>

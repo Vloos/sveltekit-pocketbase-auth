@@ -1,5 +1,6 @@
 import { serializeNonPOJOs } from '$lib/utils';
 import {error, redirect, fail} from '@sveltejs/kit'
+import PocketBase from 'pocketbase';
 
 
 export const load = async ({ locals }) =>{
@@ -44,23 +45,10 @@ export const load = async ({ locals }) =>{
 
 export const actions = {
   login: async ({request, locals}) => {
-    console.log('LOGEANDO')
     const body = Object.fromEntries(await request.formData())
 
     try{
       await locals.pb.collection('users').authWithPassword(body.username, body.password)
-      // Comprobar la verificación del usuario
-      //console.log('Usuario verificado: ', locals.pb?.authStore?.model?.verified);
-      if (!locals.pb?.authStore?.model?.verified){
-        // Si no está verificado, se vacía la autorización.
-        //locals.pb.authStore.clear() 
-        //return {
-        //  notVerified: true
-        //}
-        
-        // Pero se verifica la primera vez que se identifica
-        await locals.pb.collection('users').update(locals.pb.authStore.model.id, {"verified":true});
-      }
     }catch (err){
       if (err.status === 400) throw error(500, 'Fallo de identificación')
       throw error(500, 'No hay acceso a los datos')
@@ -73,9 +61,17 @@ export const actions = {
     const body = Object.fromEntries(await request.formData())
 
     try{
-      await locals.pb.collection('users').create({...body, verified: 1})
+      const usr = await locals.pb.collection('users').create(body)
+
       // esperar a la verificación con email
       //await locals.pb.collection('users').requestVerification(body.email)
+
+      // validar el usuario sin usar email
+      const pb = new PocketBase('http://127.0.0.1:8090')
+      await pb.admins.authWithPassword('test@test.test', '1234567890');
+      await pb.collection('users').update(usr.id, {"verified": true});
+      pb.authStore.clear();
+
     } catch (err){
       // si el registro falla, se devuelv un "fail", con el estatus y un objeto que contiene los campos del formulario, para recuperarlos en la página y rellenar el formulario automáticamente
       return fail(400, {error: true, message: err.response, fields: body})

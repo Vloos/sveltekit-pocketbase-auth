@@ -10,7 +10,6 @@ export async function load({params, locals}) {
   let campa = await locals.pb.collection('campana').getOne(params.k)
   campa = serializeNonPOJOs(campa)
   if (campa.dj !== locals.user.id) throw redirect(303, '/' )
-  console.log('id ok');
 
   
   // obtener datos de los personajes
@@ -18,7 +17,6 @@ export async function load({params, locals}) {
   pjsRecord = serializeNonPOJOs(pjsRecord)
   let pjs = new Map()
   pjsRecord.map(pj => {pjs.set(pj.pj_id, {nombre: pj.pj_nombre, datos: pj.pj_datos, j: pj.j_id})})
-  console.log('pjs ok')
 
 
   // obtener datos de los jugadores
@@ -26,7 +24,6 @@ export async function load({params, locals}) {
   jsRecord = serializeNonPOJOs(jsRecord)
   let js = new Map()
   jsRecord.map(j => {js.set(j.j_id, {nombre: j.j_nombre, pj: j.pj_id})})
-  console.log('js ok')
   
 
   return {user: locals.user, campa, pjs, js}

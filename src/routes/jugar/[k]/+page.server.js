@@ -1,4 +1,5 @@
 import { redirect } from '@sveltejs/kit'
+import { serializeNonPOJOs } from '$lib/utils'
 
 /** @type {import('./$types').PageLoad} */
 export async function load({params, locals}) {
@@ -8,6 +9,8 @@ export async function load({params, locals}) {
   let id = await locals.pb.collection('campana_jugadores').getFirstListItem(`usuario = "${locals.user.id}" && campana = "${params.k}"`)
   if (!id) throw redirect(303, '/')
 
-  // comprobar que la partida se está jugando
-
+  //envio de información de la partida.
+  let campa = await locals.pb.collection('campana').getOne(params.k, {expand: 'dj'})
+  campa = serializeNonPOJOs(campa)
+  return {user: locals.user, campa}
 }

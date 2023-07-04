@@ -51,15 +51,15 @@
     <button on:click={insertaJ} disabled={!emailRegExp.test(email)}>Añadir Jugador</button>
   </article>
   {#if $js.size > 0}
-    <header><JugadorPartida/></header>
-  {/if}
-  <ul>
-    {#each [...$js] as [k, jugador] (k)}
-      <li><JugadorPartida {jugador}/></li>
-    {:else}
+    <header class="titulo2"><span>Jugador</span><span>Personaje</span></header>
+    <ul>
+      {#each [...$js] as [k, jugador] (k)}
+        <li><JugadorPartida {jugador}/></li>
+      {/each}
+    </ul>
+  {:else}
       <li><article>Sin Jugadores</article></li>
-    {/each}
-  </ul>
+  {/if}
 </section>
 
 
@@ -73,6 +73,11 @@
 
   section.nadie{
     min-height:auto;
+  }
+
+  section > header{
+    display: flex;
+    justify-content: center
   }
 
 
