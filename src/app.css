@@ -189,6 +189,7 @@ section header, .titulo, .titulo2{
 
 .titulo2 {
   background-color: var(--bg-titulo2);
+  padding: 6px;
 }
 
 
