@@ -105,76 +105,75 @@
   <title>Editor de perfil: {data.user.username}</title>
 </svelte:head>
 
-<main>
-  <section>
-    
-      <article class="nombre">
-        <label class="etiqueta" for="nombre">Nombre</label>
-        <input type="text" name="nombre" id="nombre" bind:value={tempNombre}>
-        <div class="botonera">
-          <button on:click={cambiaNombre} disabled={tempNombre == data.username}>Confirmar cambios</button>
-          <button on:click={() => {tempNombre = data.username}} disabled={tempNombre == data.username}>Deshacer</button>
-        </div>
-      </article>
-    
-      <article class="mail">
-        <label class="etiqueta" for="email">Email</label>
-        <input type="email" name="email" id="email" bind:value={tempEmail}>
-        <div class="botonera">
-          <button on:click={cambiaEmail} disabled={tempEmail == data.email}>Confirmar cambios</button>
-          <button on:click={() => {tempEmail = data.email}} disabled={tempEmail == data.email}>Deshacer</button>
-        </div>
-        <label class="etiqueta" for="visible">Visible
-        <input type="checkbox" name="visible" id="visible" on:click={(e) => {cambiarMailVis(e)}} bind:checked={emailVisibility}></label>
-        {#if emailVisibility}
-          <span>Otros usuarios pueden invitarte a su partida</span>
+<section>
+  
+    <article class="nombre">
+      <label class="etiqueta" for="nombre">Nombre</label>
+      <input type="text" name="nombre" id="nombre" bind:value={tempNombre}>
+      <div class="botonera">
+        <button on:click={cambiaNombre} disabled={tempNombre == data.username}>Confirmar cambios</button>
+        <button on:click={() => {tempNombre = data.username}} disabled={tempNombre == data.username}>Deshacer</button>
+      </div>
+    </article>
+  
+    <article class="mail">
+      <label class="etiqueta" for="email">Email</label>
+      <input type="email" name="email" id="email" bind:value={tempEmail}>
+      <div class="botonera">
+        <button on:click={cambiaEmail} disabled={tempEmail == data.email}>Confirmar cambios</button>
+        <button on:click={() => {tempEmail = data.email}} disabled={tempEmail == data.email}>Deshacer</button>
+      </div>
+      <label class="etiqueta" for="visible">Visible
+      <input type="checkbox" name="visible" id="visible" on:click={(e) => {cambiarMailVis(e)}} bind:checked={emailVisibility}></label>
+      {#if emailVisibility}
+        <span>Otros usuarios pueden invitarte a su partida</span>
+      {:else}
+        <span>Otros usuarios no podrán invitarte a sus partidas</span>  
+      {/if}
+    </article>
+
+    <article class="pass">
+      <div class="formel">
+        <label class="etiqueta" for="password">Nueva contraseña</label>
+        <input type="password" name="password" id="password" bind:value={password}>
+        {#if password.length < 8}
+          <span id="chars">Mínimo de 8 carácteres ({8 - password.length})</span>
         {:else}
-          <span>Otros usuarios no podrán invitarte a sus partidas</span>  
+          <span id="chars">✔</span>
         {/if}
-      </article>
+      </div>
 
-      <article class="pass">
-        <div class="formel">
-          <label class="etiqueta" for="password">Nueva contraseña</label>
-          <input type="password" name="password" id="password" bind:value={password}>
-          {#if password.length < 8}
-            <span id="chars">Mínimo de 8 carácteres ({8 - password.length})</span>
-          {:else}
-            <span id="chars">✔</span>
-          {/if}
-        </div>
+      <div class="formel">
+        <label class="etiqueta" for="passwordConfirm">Confirmar contraseña</label>
+        <input type="password" name="passwordConfirm" id="passwordConfirm" bind:value={passwordConfirm}>
+        {#if passwordConfirm.length === 0}
+          <span id="confs">La confirmación no puede estar vacía</span>
+        {:else if password !== passwordConfirm}
+          <span id="confs">No coincide con la contraseña</span>
+        {:else}
+          <span id="confs">✔</span>
+        {/if}
+      </div>
 
-        <div class="formel">
-          <label class="etiqueta" for="passwordConfirm">Confirmar contraseña</label>
-          <input type="password" name="passwordConfirm" id="passwordConfirm" bind:value={passwordConfirm}>
-          {#if passwordConfirm.length === 0}
-            <span id="confs">La confirmación no puede estar vacía</span>
-          {:else if password !== passwordConfirm}
-            <span id="confs">No coincide con la contraseña</span>
-          {:else}
-            <span id="confs">✔</span>
-          {/if}
-        </div>
+      <div class="formel">
+        <label class="etiqueta" for="oldpass">Contraseña</label>
+        <input type="password" name="oldpass" id="oldpass" bind:value={oldPassword}>
+      </div>
+      <div class="botonera">
+        <button 
+          on:click={cambiaPass} 
+          disabled = {(password.length < 8 && passwordConfirm.length < 8 ) || password !== passwordConfirm}
+        >Confirmar cambios</button>
+        <button on:click={borraPass} disabled={password == '' && passwordConfirm == '' && oldPassword == ''}>Deshacer</button>
+      </div>
+    </article>
 
-        <div class="formel">
-          <label class="etiqueta" for="oldpass">Contraseña</label>
-          <input type="password" name="oldpass" id="oldpass" bind:value={oldPassword}>
-        </div>
-        <div class="botonera">
-          <button 
-            on:click={cambiaPass} 
-            disabled = {(password.length < 8 && passwordConfirm.length < 8 ) || password !== passwordConfirm}
-          >Confirmar cambios</button>
-          <button on:click={borraPass} disabled={password == '' && passwordConfirm == '' && oldPassword == ''}>Deshacer</button>
-        </div>
-      </article>
+    <article class="fecha">
+      <span class="etiqueta">Fecha de creación</span><span class="lafecha">{formateaFecha(data.created, 'full', 'full')}</span>
+    </article>
 
-      <article class="fecha">
-        <span class="etiqueta">Fecha de creación</span><span class="lafecha">{formateaFecha(data.created, 'full', 'full')}</span>
-      </article>
+</section>
 
-  </section>
-</main>
 
 
 <style>
@@ -210,7 +209,6 @@
   .fecha{
     grid-template-columns: min-content auto;
   }
-
 
   button{
     white-space: nowrap;

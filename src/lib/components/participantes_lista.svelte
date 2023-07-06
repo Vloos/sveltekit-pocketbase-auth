@@ -41,5 +41,7 @@
     box-shadow: inset 0px 0px 0px 2px var(--borde);
   }
 
-
+  section{
+    height: 100%;
+  }
 </style>

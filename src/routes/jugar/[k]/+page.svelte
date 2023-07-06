@@ -34,21 +34,20 @@
 </script>
 
 
-<main>
-  <section>
-    <header>Jugando</header>
-    <div class="botonera">
-      <input type="text" name="msg" id="msg" bind:value={msg}>
-      <button on:click={manda}>Envia a Dj ({data.campa.expand.dj.username})</button>
-    </div>
-  </section>
 
-  <div class="central">
-      <section class="privi">
-        <article>
-          <header>Respuesta</header>
-          <textarea bind:value={recibido}></textarea>
-        </article>
-      </section>
-    </div>
-</main>
+<section>
+  <header>Jugando</header>
+  <div class="botonera">
+    <input type="text" name="msg" id="msg" bind:value={msg}>
+    <button on:click={manda}>Envia a Dj ({data.campa.expand.dj.username})</button>
+  </div>
+</section>
+
+<section class="privi">
+  <article>
+    <header>Respuesta</header>
+    <textarea bind:value={recibido}></textarea>
+  </article>
+</section>
+
+

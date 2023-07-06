@@ -1,7 +1,9 @@
 <script>
+	import { page } from '$app/stores';
 	
 	import { goto } from '$app/navigation';
 	import { UserAvatar, SModalAdmin, Notificacion} from '$lib/components'
+  
 
   export let data
   import '../app.css'
@@ -27,12 +29,14 @@
       </div>
     </div>
   {/if}
-  <h1>Cronista</h1>
+  
+  <h1>{$page?.data?.campa?.nombre || 'Cronista'}</h1>
   <hr>
 </header>
 
-
-<slot/>
+<main>
+  <slot/>
+</main>
 
 
 <style>

@@ -49,10 +49,30 @@ export default function socketServer(){
       // si hay idJ, el pj es para ese jugador
       const cliente = socketsRooms.get(idSala).get(para)
       if (cliente){
-        cliente.emit('s:pj', { data, j: socket.handshake.auth.token });
+        cliente.emit('s:pj', { data, j: token });
       } else {
         socket.emit('s:error', data='Participante sin conexión')
       }
     });
+
+    /**
+     * mensajes de chat
+     * tipo: simple | tirada | objeto | ..... (según lo que se envíe)
+     * data: el mensaje
+     */
+    socket.on('c:chat', (data, tipo) => {
+      // generar un id que va a ser la id del emisor del mensaje y la fecha
+      data.id = `${token}_${Date.now()}`
+      socket.to(partida).emit('s:chat', data, {j:token, tipo});
+    })
+
+    /**
+     * Borra mensaje de chat
+     * solo los DJ pueden borrar
+     * data: id del mensaje
+     */
+    socket.on('c:chat:borra', (data) => { 
+      socket.to(partida).emit('s:chat:borra', data);
+    })
   });
 }

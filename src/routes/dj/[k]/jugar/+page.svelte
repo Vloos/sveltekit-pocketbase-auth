@@ -1,7 +1,6 @@
 <script>
   import { conexion, desconexion, mandaSocket, mensajeDesdeServidor } from '$lib/socketmanager'
   import { ParticipantesLista} from '$lib/components'
-  import { browser } from '$app/environment';
   import { page } from '$app/stores'
 	import { onMount, onDestroy } from 'svelte';
   import {Ficha} from '$lib/pjcomponents.js'
@@ -78,43 +77,38 @@
 
 
 
-<main>
+<ParticipantesLista {listaParticipantes} clickFn={clickar}/>
 
-  <section class="titulocampa">
-    <h2>{data.campa.nombre}</h2>
-  </section>
+<section class="fichas">
+  <Ficha pj={pjEdit}/>
+</section>
 
-  <div class="central">
-    {#if data.pjs.size > 0}
-      <ParticipantesLista {listaParticipantes} clickFn={clickar}/>
-    {/if}
-      <section class="privi">
-        <article>
-          <header>Mensaje para {usuario || '...'}</header>
-          <div class="botonera">
-            <textarea bind:value={msg}></textarea>
-            <button on:click={manda}>Manda</button>
-          </div>
-        </article>
-        <article>
-          <header>Respuesta</header>
-          <textarea bind:value={recibido}></textarea>
-        </article>
-      </section>
-
+<section class="chat">
+  <article>
+    <header>Mensaje para {usuario || '...'}</header>
+    <div class="botonera">
+      <textarea bind:value={msg}></textarea>
+      <button on:click={manda}>Manda</button>
     </div>
-    <Ficha pj={pjEdit}/>
-</main>
+  </article>
+  <article>
+    <header>Respuesta</header>
+    <textarea bind:value={recibido}></textarea>
+  </article>
+</section>
+
 
 
 
 <style>
-  div.central{
-    display: grid;
-    grid-template-columns: max-content auto;
-    width: 800px;
+  .fichas{
+    display: flex;
+    flex-direction: column;
   }
 
+  .chat{
+    height: 100%;
+  }
   .botonera button{
     height: 100%;
   }

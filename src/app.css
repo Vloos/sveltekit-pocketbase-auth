@@ -106,19 +106,27 @@
 	background: rgba(223, 223, 223, 0.4);
 }
 
+html {
+  height: 100%;
+}
+
 body{
+  display: grid;
+  gap: 5px;
 	padding: 0;
+  grid-template-rows: min-content auto;
 	text-align: center;
 	margin: 0 auto;
 	/* background-color: var(--bg-main); */
 	min-width: 800px;
+  height: 100%;
 }
 
 body *{
   font-family: inter;
   color: var(--letra);
   box-sizing: border-box;
-	gap: 5px;
+	gap: var(--padding-global);
 	font-size: 100%;
 	justify-items: center;
 	align-items: center;
@@ -135,6 +143,7 @@ body *{
 	height: 8px;
 	background: transparent;
 }
+
 
 /* cosas varias */
 
@@ -183,13 +192,12 @@ section header, .titulo, .titulo2{
 	height: 100%;
 	background-color: var(--bg-titulo);
 	font-weight: bold;
-	padding: var(--padding-global);
-  padding: 8px;
+	padding: calc(var(--padding-global) + 4px);
 }
 
 .titulo2 {
   background-color: var(--bg-titulo2);
-  padding: 6px;
+  padding: calc(var(--padding-global) + 2px);
 }
 
 

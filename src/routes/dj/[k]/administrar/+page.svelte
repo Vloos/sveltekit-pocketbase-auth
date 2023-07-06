@@ -15,8 +15,7 @@
   <title>Gestor de partida: {data.campa.nombre}</title>
 </svelte:head>
 
-<main>
-  <InfoCampa campa = {data.campa}/>
-  <JugadoresPartida/>
-  <PersonajesPartidaLista/>
-</main>
+
+<InfoCampa campa = {data.campa}/>
+<JugadoresPartida/>
+<PersonajesPartidaLista/>
