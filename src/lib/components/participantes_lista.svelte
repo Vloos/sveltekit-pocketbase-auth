@@ -10,6 +10,9 @@
     activo = cual
   }
 
+  function privado(){
+    console.log('privado para', activo)
+  }
 </script>
 
 <section class="participantes">
@@ -18,7 +21,7 @@
       <li >
         <button class="article" 
           transition:slide 
-          on:click={() => {handleClick(p.idj || p.idp)}} 
+          on:click={() => {handleClick(p.idj || p.idp)}}
           class:activo={activo && (activo == p.idj || activo == p.idp)}
         >
           {p.nombrej} 
@@ -28,6 +31,13 @@
             </span>
           {/if}
         </button>
+        {#if p.idj}
+          <button
+            on:click={privado}
+          >
+            Privado
+          </button>
+        {/if}
       </li>
     {/each}
   </ul>

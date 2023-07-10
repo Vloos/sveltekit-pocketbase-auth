@@ -18,7 +18,9 @@ import Icons from './components/icons.svelte'
 import Notificacion from './components/notificacion.svelte'
 import ParticipantesLista from './components/participantes_lista.svelte'
 
+// chat
+import Chat from './components/chat/cajachat.svelte'
 
 export { Notificacion, Icons, BotonBorrar, PersonajePartida, Login, Register, UserAvatar, PartidaDirigida, PartidasDirigidasLista, 
   PartidaJugada, PartidasJugadasLista, InfoCampa, JugadoresPartida, ParticipantesLista,
-  JugadorPartida, SModalAdmin, SModalSlot, CrearPartidaModal, PersonajesPartidaLista}
+  JugadorPartida, SModalAdmin, SModalSlot, CrearPartidaModal, PersonajesPartidaLista, Chat}

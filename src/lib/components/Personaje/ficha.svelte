@@ -4,57 +4,61 @@
 </script>
 
 
-{#if pj}
-  <section>
-    <h3>{pj.nombre}</h3>
-  </section>
-  <section class="cara">
-    <header>Características</header>
-    <ul>
-      {#each Personaje.nombreCar as car, i (i)}
-        <li>
-          <article>
-            <header>{car}</header>
-            <span>
-              <input 
-                type="number" 
-                min={Personaje.minMaxCarPuntos[0]} 
-                max={Personaje.minMaxCarPuntos[1]} 
-                bind:value={pj.caracteristicas[i]}>
-              </span>
-          </article>
-        </li>
-      {/each}
-    </ul>
-  </section>
 
-  <section class="habs">
-    <header>Habilidades</header>
-    <ul>
-      {#each Personaje.nombreHabs as hab, i (i)}
-        <li>
-          <article>
-            <header>{hab} <span class="mod">{Personaje.nombreCar[Personaje.habMods[i]]}</span></header> 
-            <span>
-              <input 
-                type="number"
-                min={Personaje.minMaxHabPuntos[0]}
-                max={Personaje.minMaxHabPuntos[1]}
-                bind:value={pj.habilidadesNivel[i]}
-              >
-            </span>
-            <span>
-              {pj.habDatos(i).carNivel > 0 ? '+': ''}{pj.habDatos(i).carNivel}
-            </span>
-            <span>
-              {pj.habDatos(i).total}
-            </span>
-          </article>
-        </li>
-      {/each}
-    </ul>
-  </section>
+{#if pj}
+  <div>
+    <section>
+      <h3>{pj.nombre}</h3>
+    </section>
+    <section class="cara">
+      <header>Características</header>
+      <ul>
+        {#each Personaje.nombreCar as car, i (i)}
+          <li>
+            <article>
+              <header>{car}</header>
+              <span>
+                <input 
+                  type="number" 
+                  min={Personaje.minMaxCarPuntos[0]} 
+                  max={Personaje.minMaxCarPuntos[1]} 
+                  bind:value={pj.caracteristicas[i]}>
+                </span>
+            </article>
+          </li>
+        {/each}
+      </ul>
+    </section>
+
+    <section class="habs">
+      <header>Habilidades</header>
+      <ul>
+        {#each Personaje.nombreHabs as hab, i (i)}
+          <li>
+            <article>
+              <header>{hab} <span class="mod">{Personaje.nombreCar[Personaje.habMods[i]]}</span></header> 
+              <span>
+                <input 
+                  type="number"
+                  min={Personaje.minMaxHabPuntos[0]}
+                  max={Personaje.minMaxHabPuntos[1]}
+                  bind:value={pj.habilidadesNivel[i]}
+                >
+              </span>
+              <span>
+                {pj.habDatos(i).carNivel > 0 ? '+': ''}{pj.habDatos(i).carNivel}
+              </span>
+              <span>
+                {pj.habDatos(i).total}
+              </span>
+            </article>
+          </li>
+        {/each}
+      </ul>
+    </section>
+  </div>
 {/if}
+
 
 
 <style>

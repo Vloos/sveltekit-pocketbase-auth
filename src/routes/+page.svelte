@@ -30,25 +30,23 @@
   <title>Gestor de partidas {data.user?.username ? `de ${data.user.username}`: ''}</title>
 </svelte:head>
 
-<main>
-  {#if !data.user}
-    <div class="pesta">
-      <header>
-        {#each secciones as seccion, i}
-          <button on:click={() => seccionActiva = i} class="opcion {seccionActiva == i? 'seleccionado': ''}">{seccion}</button>
-        {/each}
-      </header>
-      <article transition:fade={{duration:75}}>
-        {#if seccionActiva === 0}<div transition:fade={{duration:75}}><Login/></div>{/if}
-        {#if seccionActiva === 1}<div transition:fade={{duration:75}}><Register fields={form?.fields}/></div>{/if}
-      </article>
-    </div>
-  {:else}
-    <PartidasDirigidasLista/>
-    <PartidasJugadasLista/>
-  {/if}
-    
-</main>
+{#if !data.user}
+  <div class="pesta">
+    <header>
+      {#each secciones as seccion, i}
+        <button on:click={() => seccionActiva = i} class="opcion {seccionActiva == i? 'seleccionado': ''}">{seccion}</button>
+      {/each}
+    </header>
+    <article transition:fade={{duration:75}}>
+      {#if seccionActiva === 0}<div transition:fade={{duration:75}}><Login/></div>{/if}
+      {#if seccionActiva === 1}<div transition:fade={{duration:75}}><Register fields={form?.fields}/></div>{/if}
+    </article>
+  </div>
+{:else}
+  <PartidasDirigidasLista/>
+  <PartidasJugadasLista/>
+{/if}
+
 
 
 <style>

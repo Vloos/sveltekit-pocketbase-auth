@@ -1,14 +1,17 @@
 <script>
-  import { conexion, desconexion, mandaSocket, mensajeDesdeServidor } from '$lib/socketmanager'
+  import { conexion, desconexion, mandaSocket, chat } from '$lib/socketmanager'
+  import { Chat } from '$lib/components'
   import { page } from '$app/stores'
 	import { onMount, onDestroy } from 'svelte';
   export let data
   let msg
-  let recibido
 
-  $: recibido = $mensajeDesdeServidor && $mensajeDesdeServidor.data.msg
+  $: console.log('chat', $chat)
+  $: console.log('page', $page)
+
 
   onMount(() => {
+    chat.reset()
     conectar()
   })
 
@@ -43,11 +46,6 @@
   </div>
 </section>
 
-<section class="privi">
-  <article>
-    <header>Respuesta</header>
-    <textarea bind:value={recibido}></textarea>
-  </article>
-</section>
+<Chat/>
 
 

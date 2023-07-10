@@ -57,13 +57,37 @@ export default function socketServer(){
 
     /**
      * mensajes de chat
-     * tipo: simple | tirada | objeto | ..... (según lo que se envíe)
+     * tipo: texto | tirada | objeto | ..... (según lo que se envíe)
      * data: el mensaje
      */
-    socket.on('c:chat', (data, tipo) => {
+    socket.on('c:chat', (data, {idSala, para, tipo}) => {
+      // genera cabecera
+      const cabecera = {
+          para,
+          idSala,
+          tipo,
+          de: token,
+        }
       // generar un id que va a ser la id del emisor del mensaje y la fecha
-      data.id = `${token}_${Date.now()}`
-      socket.to(partida).emit('s:chat', data, {j:token, tipo});
+      data.date = Date.now()
+      data.id = `${token}_${data.date}`
+
+      // si el mensaje es para alguien, es para ese alguien
+      // si no, es para todos
+      if (!para){
+        console.log('mensaje para todos')
+        socket.to(partida).emit('s:chat', data, cabecera);
+        socket.emit('s:chat', data, cabecera)
+      } else {
+        let cliente = socketsRooms.get(idSala).get(para)
+        if (cliente){
+          cliente.emit('s:chat', data, cabecera)
+          socket.emit('s:chat', data, cabecera)
+        } else{
+          // si ese alguien no está, tira error
+          socket.emit('s:error', data='Participante sin conexión')
+        }
+      }
     })
 
     /**

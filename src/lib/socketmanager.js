@@ -4,7 +4,20 @@ import { env } from '$env/dynamic/public'
 import { writable } from 'svelte/store';
 import { notifications } from '$lib/notificaciones';
 
-export let mensajeDesdeServidor = writable()
+export let chat = chatStore()
+export let pj = writable()
+
+
+function chatStore(){
+  const {subscribe, set, update} = writable(new Map())
+
+  return {
+    subscribe,
+    borra: (cual) => update((m) => m.delete(cual)),
+    update: (que) => update((m) => m.set(que.id, que)),
+    reset: () => update(() => new Map()),
+  }
+}
 
 let socket
 const url = browser ? window.parent.location.hostname : ''
@@ -67,7 +80,7 @@ function socketConfig(userId, partidaId, role){
 
   // cuando recive un personaje desde el servidor
   socket.on('s:pj', ({data, j}) => {
-    mensajeDesdeServidor.set({data, j})
+    pj.set({data, j})
   })
 
 
@@ -83,11 +96,18 @@ function socketConfig(userId, partidaId, role){
     console.log('Usuario sale de la partida:' + token);
   })
 
+  
+  //recive mensaje de chat
+  socket.on('s:chat', (data, {de, para})  => {
+    data.de = de
+    data.para = para
+    chat.update(data)
+  })
+
   // cuando el servidor de sockets envía un error
   socket.on('s:error', data => {
     console.error(`Error: ${data}`)
   })
-
 }
 
 
@@ -95,11 +115,11 @@ function socketConfig(userId, partidaId, role){
  * Envía datos por el socket
  * @param {String} evtName nombre del evento al que atiende el servidor
  * @param {Any} data datos enviados por el socket
- * @param {{idSala: String, para: String }} ids id de la sala, id del jugador destino
+ * @param {Object} cabecera
  */
-export function mandaSocket(evtName, data, ids){
+export function mandaSocket(evtName, data, cabecera){
   if (socket){
-    socket.emit(evtName, data, ids)
+    socket.emit(evtName, data, cabecera)
   } else{
     console.error('No se puede transmitir')
   }

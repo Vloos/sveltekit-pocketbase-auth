@@ -1,4 +1,4 @@
-import socketServer from "./server.js"
+import socketServer from "./sockserver.js"
 
 function empezar(){
   socketServer()
