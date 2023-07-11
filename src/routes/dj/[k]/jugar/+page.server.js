@@ -7,7 +7,7 @@ export async function load({params, locals}) {
   
 
   // Comprobar la id del user. Comprobar la id del dueño de la partida. Si son distintos, no puede pasar
-  let campa = await locals.pb.collection('campana').getOne(params.k)
+  let campa = await locals.pb.collection('campana').getOne(params.k, {expand: 'dj'})
   campa = serializeNonPOJOs(campa)
   if (campa.dj !== locals.user.id) throw redirect(303, '/' )
 
@@ -24,7 +24,6 @@ export async function load({params, locals}) {
   jsRecord = serializeNonPOJOs(jsRecord)
   let js = new Map()
   jsRecord.map(j => {js.set(j.j_id, {nombre: j.j_nombre, pj: j.pj_id})})
-  
 
   return {user: locals.user, campa, pjs, js}
 }

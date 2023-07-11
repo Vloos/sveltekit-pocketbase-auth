@@ -75,7 +75,6 @@ export default function socketServer(){
       // si el mensaje es para alguien, es para ese alguien
       // si no, es para todos
       if (!para){
-        console.log('mensaje para todos')
         socket.to(partida).emit('s:chat', data, cabecera);
         socket.emit('s:chat', data, cabecera)
       } else {

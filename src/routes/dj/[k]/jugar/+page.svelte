@@ -8,7 +8,6 @@
   
   
   export let data
-  let msg
   let recibido
   let usuario
   let listaParticipantes = []
@@ -78,7 +77,7 @@
 <div class="sesion">
   <ParticipantesLista {listaParticipantes} clickFn={clickar}/>
   <Ficha pj={pjEdit}/>
-  <Chat para={{usuario, idParticipante}}/>
+  <Chat/>
 </div>
 
 

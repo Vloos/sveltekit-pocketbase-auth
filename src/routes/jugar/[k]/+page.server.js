@@ -12,5 +12,10 @@ export async function load({params, locals}) {
   //envio de información de la partida.
   let campa = await locals.pb.collection('campana').getOne(params.k, {expand: 'dj'})
   campa = serializeNonPOJOs(campa)
-  return {user: locals.user, campa}
+
+  let participantes = await locals.pb.collection('jugadores_de_campana').getFullList({filter:`campana="${params.k}"`, fields:'j_id, j_nombre'})
+  let js = new Map()
+  participantes.map(p => js.set(p.j_id, {nombre: p.j_nombre}))
+  
+  return {user: locals.user, campa, js}
 }

@@ -1,48 +1,53 @@
 <script>
 	import { page } from "$app/stores";
   import { mandaSocket, chat } from '$lib/socketmanager'
+	import { onMount } from "svelte";
 
   let msg
-  export let para
   
-  $: console.log($chat)
-  $: console.log('page', $page)
+  $: console.log('page', $page.data)
+
+
+  onMount(() => {
+    chat.reset()
+  })
+
 
   function manda(){
     const datos = {msg}
     const cabecera = {
       idSala: $page.params.k,
-      para: para?.idParticipante,
-      tipo: 'texo'
+      tipo: 'texo',
     }
     mandaSocket('c:chat', datos, cabecera)
+  }
+
+
+  function getNombre(id){
+    return $page.data.js.get(id)?.nombre || $page.data.campa.expand?.dj.username || 'Desconocido'
   }
 
 </script>
 
 
+
 <section>
-  <ul>
-    {#each [...$chat] as [k, v] (k)}
-      <li class="chat">
-        <article>
-          <header>
-            Alguien &rightarrow; Alguien
-          </header>
-          {v.msg}
-        </article>
-      </li>
-    {/each}
-  </ul>
+  <article>
+    <ul>
+      {#each [...$chat] as [k, v] (k)}
+        <li class="chat">
+          <article>
+            {getNombre(v.de)}
+            <hr>
+            {v.msg}
+          </article>
+        </li>
+      {/each}
+    </ul>
+  </article>
 
   <article class="mensaje">
-    <header>Mensaje para {para?.usuario || '...'}</header>
-    <div class="botonera">
-      <textarea bind:value={msg}></textarea>
-      <button on:click={manda}>Manda</button>
-    </div>
+    <textarea bind:value={msg}></textarea>
+    <button on:click={manda}>Manda</button>
   </article>
 </section>
-
-<style>
-</style>
