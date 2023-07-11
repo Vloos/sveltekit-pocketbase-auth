@@ -1,5 +1,6 @@
 <script>
   import { slide } from 'svelte/transition'
+  import { amod } from '$lib/stores';
 
   export let listaParticipantes = []
   export let clickFn = undefined
@@ -10,8 +11,8 @@
     activo = cual
   }
 
-  function privado(){
-    console.log('privado para', activo)
+  function privado(id){
+    $amod('privado', {paraId: id})
   }
 </script>
 
@@ -33,7 +34,7 @@
         </button>
         {#if p.idj}
           <button
-            on:click={privado}
+            on:click={() => {privado(p.idj)}}
           >
             Privado
           </button>

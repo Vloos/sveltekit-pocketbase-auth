@@ -3,12 +3,14 @@
   import { goto } from "$app/navigation";
   import { campDirigiendo } from '$lib/stores';
   import { notifications } from '$lib/notificaciones'
+	
 
   let nombre = ''
   let desc = ''
 
   function keyPress(e){
     if (e.shiftKey && e.charCode === 13) {
+      e.preventDefault()    
       crearPartida()
     }
   }

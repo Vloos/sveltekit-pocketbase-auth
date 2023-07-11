@@ -20,7 +20,8 @@ import ParticipantesLista from './components/participantes_lista.svelte'
 
 // chat
 import Chat from './components/chat/cajachat.svelte'
+import PrivadoModal from './components/chat/privado_modal.svelte'
 
 export { Notificacion, Icons, BotonBorrar, PersonajePartida, Login, Register, UserAvatar, PartidaDirigida, PartidasDirigidasLista, 
   PartidaJugada, PartidasJugadasLista, InfoCampa, JugadoresPartida, ParticipantesLista,
-  JugadorPartida, SModalAdmin, SModalSlot, CrearPartidaModal, PersonajesPartidaLista, Chat}
+  JugadorPartida, SModalAdmin, SModalSlot, CrearPartidaModal, PersonajesPartidaLista, Chat, PrivadoModal}

@@ -14,7 +14,7 @@
   let idParticipante
   let pjEdit
 
-  $: recibido = $chat && (data.js.get($chat.j)?.nombre || '') + ': ' + $chat.data + '\n'
+  //$: recibido = $chat && (data.js.get($chat.j)?.nombre || '') + ': ' + $chat.data + '\n'
 
 
   // comenzar sesión cuando se carga el componente
