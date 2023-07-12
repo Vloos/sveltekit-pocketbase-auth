@@ -6,9 +6,6 @@
   export let data
   let msg
 
-  $: console.log('chat', $chat)
-  $: console.log('page', $page)
-
 
   onMount(() => {
     chat.reset()

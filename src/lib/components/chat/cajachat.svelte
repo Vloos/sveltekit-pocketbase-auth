@@ -1,11 +1,12 @@
 <script>
+	import { amod } from '$lib/stores';
 	import { page } from "$app/stores";
   import { mandaSocket, chat } from '$lib/socketmanager'
 	import { onMount } from "svelte";
+  import { Icons } from '$lib/components'
+  
 
   let msg
-  
-  $: console.log('page', $page.data)
 
 
   onMount(() => {
@@ -27,6 +28,10 @@
     return $page.data.js.get(id)?.nombre || $page.data.campa.expand?.dj.username || 'Desconocido'
   }
 
+
+  function responder(id){
+    $amod('privado', {paraId: id})
+  }
 </script>
 
 
@@ -38,6 +43,14 @@
         <li class="chat">
           <article>
             {getNombre(v.de)}
+            {#if v.para}
+              &rightarrow; {getNombre(v.para)}
+            {/if}
+            {#if v.de !== $page.data.user.id}
+              <button on:click={() => {responder(v.de)}}>
+                <Icons name="responder"/>
+              </button>
+            {/if}
             <hr>
             {v.msg}
           </article>
