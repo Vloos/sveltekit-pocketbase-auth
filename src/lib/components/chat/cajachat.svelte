@@ -13,6 +13,14 @@
   })
 
 
+  function keyPress(e){
+    if (e.shiftKey && e.charCode === 13) {
+      e.preventDefault()
+      manda()
+    }
+  }
+
+
   function manda(){
     const datos = {msg}
     const cabecera = {
@@ -20,6 +28,7 @@
       tipo: 'texo',
     }
     mandaSocket('c:chat', datos, cabecera)
+    msg = ''
   }
 </script>
 
@@ -37,7 +46,9 @@
   </article>
 
   <article class="mensaje">
-    <textarea bind:value={msg}></textarea>
+    <textarea
+      on:keypress={keyPress}
+      bind:value={msg}/>
     <button on:click={manda}>Manda</button>
   </article>
 </section>
