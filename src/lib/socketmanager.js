@@ -134,7 +134,18 @@ export function desconexion(){
 }
 
 
-
+/**
+ * Supuestamente, cuando un dj empieza sesión de juego, el "jugando" en la campaña que sea, se pone en true.
+ * Cuando el dj se desconecta, se pone en false.
+ * Encuentro 2 problemas
+ * 1. Los jugadores tienen que actualizar la página para ver los cambios en el estado "jugando" de la partida para poder entrar a la sesión.
+ * 2. La desconexión que hace este cambio solo funciona cuando el dj navega por la página, pero no si cierra la pestaña o va a una página fuera de Cronista
+ * Encuentro soluciones
+ * 1. Cuando un dj se conecta o desconecta al servidor de sockets, es el servidor de socket el que actualiza la bd, pero sigue el problema 2
+ * 2. Lo gestiona el servidor de sockets...
+ *    Al entrar en cronista se conecta a servidor de sockets.
+ *    El servidor de sockets se encarga de enviar eventos a la página cuando un dj empieza o termina la sesión, o el usuario es invitado a una partida
+ */
 function setJugando(jugando, id) {
   const body = JSON.stringify({id, jugando})
   fetch('/api/partida', {
