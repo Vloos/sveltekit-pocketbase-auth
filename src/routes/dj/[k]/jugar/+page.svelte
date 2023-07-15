@@ -84,6 +84,10 @@
 
 <style>
   .sesion{
-    display: flex;
+    display: grid;
+    grid-template-columns: 300px auto 300px;
+    height: 100%;
+    overflow: auto;
+    grid-template-rows: 100%;
   }
 </style>
