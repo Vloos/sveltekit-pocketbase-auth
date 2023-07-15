@@ -4,7 +4,20 @@ import { env } from '$env/dynamic/public'
 import { writable } from 'svelte/store';
 import { notifications } from '$lib/notificaciones';
 
-export let mensajeDesdeServidor = writable()
+export let chat = chatStore()
+export let pj = writable()
+
+
+function chatStore(){
+  const {subscribe, set, update} = writable(new Map())
+
+  return {
+    subscribe,
+    borra: (cual) => update((m) => m.delete(cual)),
+    update: (que) => update((m) => m.set(que.id, que)),
+    reset: () => update(() => new Map()),
+  }
+}
 
 let socket
 const url = browser ? window.parent.location.hostname : ''
@@ -67,7 +80,7 @@ function socketConfig(userId, partidaId, role){
 
   // cuando recive un personaje desde el servidor
   socket.on('s:pj', ({data, j}) => {
-    mensajeDesdeServidor.set({data, j})
+    pj.set({data, j})
   })
 
 
@@ -83,11 +96,18 @@ function socketConfig(userId, partidaId, role){
     console.log('Usuario sale de la partida:' + token);
   })
 
+  
+  //recive mensaje de chat
+  socket.on('s:chat', (data, {de, para})  => {
+    data.de = de
+    data.para = para
+    chat.update(data)
+  })
+
   // cuando el servidor de sockets envía un error
   socket.on('s:error', data => {
     console.error(`Error: ${data}`)
   })
-
 }
 
 
@@ -95,11 +115,11 @@ function socketConfig(userId, partidaId, role){
  * Envía datos por el socket
  * @param {String} evtName nombre del evento al que atiende el servidor
  * @param {Any} data datos enviados por el socket
- * @param {{idSala: String, para: String }} ids id de la sala, id del jugador destino
+ * @param {Object} cabecera
  */
-export function mandaSocket(evtName, data, ids){
+export function mandaSocket(evtName, data, cabecera){
   if (socket){
-    socket.emit(evtName, data, ids)
+    socket.emit(evtName, data, cabecera)
   } else{
     console.error('No se puede transmitir')
   }
@@ -114,7 +134,18 @@ export function desconexion(){
 }
 
 
-
+/**
+ * Supuestamente, cuando un dj empieza sesión de juego, el "jugando" en la campaña que sea, se pone en true.
+ * Cuando el dj se desconecta, se pone en false.
+ * Encuentro 2 problemas
+ * 1. Los jugadores tienen que actualizar la página para ver los cambios en el estado "jugando" de la partida para poder entrar a la sesión.
+ * 2. La desconexión que hace este cambio solo funciona cuando el dj navega por la página, pero no si cierra la pestaña o va a una página fuera de Cronista
+ * Encuentro soluciones
+ * 1. Cuando un dj se conecta o desconecta al servidor de sockets, es el servidor de socket el que actualiza la bd, pero sigue el problema 2
+ * 2. Lo gestiona el servidor de sockets...
+ *    Al entrar en cronista se conecta a servidor de sockets.
+ *    El servidor de sockets se encarga de enviar eventos a la página cuando un dj empieza o termina la sesión, o el usuario es invitado a una partida
+ */
 function setJugando(jugando, id) {
   const body = JSON.stringify({id, jugando})
   fetch('/api/partida', {

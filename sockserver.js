@@ -49,10 +49,53 @@ export default function socketServer(){
       // si hay idJ, el pj es para ese jugador
       const cliente = socketsRooms.get(idSala).get(para)
       if (cliente){
-        cliente.emit('s:pj', { data, j: socket.handshake.auth.token });
+        cliente.emit('s:pj', { data, j: token });
       } else {
         socket.emit('s:error', data='Participante sin conexión')
       }
     });
+
+    /**
+     * mensajes de chat
+     * tipo: texto | tirada | objeto | ..... (según lo que se envíe)
+     * data: el mensaje
+     */
+    socket.on('c:chat', (data, {idSala, para, tipo}) => {
+      // genera cabecera
+      const cabecera = {
+          para,
+          idSala,
+          tipo,
+          de: token,
+        }
+      // generar un id que va a ser la id del emisor del mensaje y la fecha
+      data.date = Date.now()
+      data.id = `${token}_${data.date}`
+
+      // si el mensaje es para alguien, es para ese alguien
+      // si no, es para todos
+      if (!para){
+        socket.to(partida).emit('s:chat', data, cabecera);
+        socket.emit('s:chat', data, cabecera)
+      } else {
+        let cliente = socketsRooms.get(idSala).get(para)
+        if (cliente){
+          cliente.emit('s:chat', data, cabecera)
+          socket.emit('s:chat', data, cabecera)
+        } else{
+          // si ese alguien no está, tira error
+          socket.emit('s:error', data='Participante sin conexión')
+        }
+      }
+    })
+
+    /**
+     * Borra mensaje de chat
+     * solo los DJ pueden borrar
+     * data: id del mensaje
+     */
+    socket.on('c:chat:borra', (data) => { 
+      socket.to(partida).emit('s:chat:borra', data);
+    })
   });
 }

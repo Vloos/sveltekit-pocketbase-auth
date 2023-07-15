@@ -99,6 +99,4 @@ export const GET = async (event) => {
     console.log(err)
     return new Response(JSON.stringify({type: 'error', message: 'Error en el servidor'}), {status: 500})
   }
-  
-
 }

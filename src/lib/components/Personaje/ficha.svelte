@@ -4,9 +4,10 @@
 </script>
 
 
+
 {#if pj}
   <section>
-    <h3>{pj.nombre}</h3>
+    <header>{pj.nombre}</header>
   </section>
   <section class="cara">
     <header>Características</header>
@@ -57,9 +58,11 @@
 {/if}
 
 
+
 <style>
   section{
     width: 800px;
+    overflow: auto;
   }
 
   .mod{

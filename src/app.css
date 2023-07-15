@@ -107,18 +107,20 @@
 }
 
 body{
+  gap: var(--padding-global);
 	padding: 0;
 	text-align: center;
 	margin: 0 auto;
-	/* background-color: var(--bg-main); */
 	min-width: 800px;
+  overflow: auto;
+  min-height: 0;
 }
 
 body *{
   font-family: inter;
   color: var(--letra);
   box-sizing: border-box;
-	gap: 5px;
+	gap: var(--padding-global);
 	font-size: 100%;
 	justify-items: center;
 	align-items: center;
@@ -136,6 +138,7 @@ body *{
 	background: transparent;
 }
 
+
 /* cosas varias */
 
 h1, h2, h3{
@@ -147,12 +150,6 @@ h1, h2, h3{
 h1{font-size: 2rem; line-height: 2.5rem;}
 h2{font-size: 1.5rem;}
 h3{font-size: 1rem;}
-
-main{
-  display: grid;
-  padding: 1rem 0;
-  gap: 1rem;
-}
 
 
 /* Secciones */
@@ -183,13 +180,12 @@ section header, .titulo, .titulo2{
 	height: 100%;
 	background-color: var(--bg-titulo);
 	font-weight: bold;
-	padding: var(--padding-global);
-  padding: 8px;
+	padding: calc(var(--padding-global) + 4px);
 }
 
 .titulo2 {
   background-color: var(--bg-titulo2);
-  padding: 6px;
+  padding: calc(var(--padding-global) + 2px);
 }
 
 

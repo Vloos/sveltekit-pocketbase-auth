@@ -1,6 +1,6 @@
 <script>
   import { Modals, openModal } from 'svelte-modals'
-  import { SModalSlot } from '$lib/components';
+  import { SModalSlot, PrivadoModal } from '$lib/components';
   import { fade } from 'svelte/transition';
   import { amod } from '$lib/stores'
 
@@ -18,6 +18,7 @@
   function abrirModal(t, d) {
     let cual ={  // nombreModal: {c: componenteModal, prop: {props}},
       crearPartida: {c:CrearPartidaModal},
+      privado: {c:PrivadoModal, prop: d}
     }
 
     openModal(SModalSlot, {component: cual[t].c, prop: cual[t].prop})

@@ -1,5 +1,6 @@
 <script>
   import { slide } from 'svelte/transition'
+  import { amod } from '$lib/stores';
 
   export let listaParticipantes = []
   export let clickFn = undefined
@@ -10,6 +11,9 @@
     activo = cual
   }
 
+  function privado(id){
+    $amod('privado', {paraId: id})
+  }
 </script>
 
 <section class="participantes">
@@ -18,7 +22,7 @@
       <li >
         <button class="article" 
           transition:slide 
-          on:click={() => {handleClick(p.idj || p.idp)}} 
+          on:click={() => {handleClick(p.idj || p.idp)}}
           class:activo={activo && (activo == p.idj || activo == p.idp)}
         >
           {p.nombrej} 
@@ -28,6 +32,13 @@
             </span>
           {/if}
         </button>
+        {#if p.idj}
+          <button
+            on:click={() => {privado(p.idj)}}
+          >
+            Privado
+          </button>
+        {/if}
       </li>
     {/each}
   </ul>
@@ -41,5 +52,7 @@
     box-shadow: inset 0px 0px 0px 2px var(--borde);
   }
 
-
+  section{
+    height: 100%;
+  }
 </style>

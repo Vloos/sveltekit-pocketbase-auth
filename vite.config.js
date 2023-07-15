@@ -1,6 +1,6 @@
 import { sveltekit } from '@sveltejs/kit/vite';
 import { defineConfig } from 'vite';
-import { webSocketServer } from './webSocketVitePlugin';
+//import { webSocketServer } from './webSocketVitePlugin';
 
 
 export default defineConfig({
@@ -10,5 +10,5 @@ export default defineConfig({
 	preview: {
 			port: 3000
 	},
-	plugins: [sveltekit(), webSocketServer]
+	plugins: [sveltekit(),]
 });

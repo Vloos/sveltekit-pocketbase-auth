@@ -1,7 +1,6 @@
 <script>
-  import { conexion, desconexion, mandaSocket, mensajeDesdeServidor } from '$lib/socketmanager'
-  import { ParticipantesLista} from '$lib/components'
-  import { browser } from '$app/environment';
+  import { conexion, desconexion, mandaSocket, chat } from '$lib/socketmanager'
+  import { ParticipantesLista, Chat} from '$lib/components'
   import { page } from '$app/stores'
 	import { onMount, onDestroy } from 'svelte';
   import {Ficha} from '$lib/pjcomponents.js'
@@ -9,14 +8,13 @@
   
   
   export let data
-  let msg
   let recibido
   let usuario
   let listaParticipantes = []
   let idParticipante
   let pjEdit
 
-  $: recibido = $mensajeDesdeServidor && (data.js.get($mensajeDesdeServidor.j)?.nombre || '') + ': ' + $mensajeDesdeServidor.data + '\n'
+  //$: recibido = $chat && (data.js.get($chat.j)?.nombre || '') + ': ' + $chat.data + '\n'
 
 
   // comenzar sesión cuando se carga el componente
@@ -41,12 +39,6 @@
   }
 
 
-  // msg durante las pruebas. Sustituirlo por los datos del personaje cuando eso
-  function manda(){
-    const datos = {msg}
-    mandaSocket('c:pj', datos, {idSala: $page.params.k, para: idParticipante})
-  }
-
 /**
  * Crea una sola lista que combina los mapas de jugadores y personajes
  */
@@ -68,6 +60,11 @@
 
 
   function clickar(cualo){
+    if (!cualo){
+      usuario = undefined
+      pjEdit = undefined
+      return
+    }
     idParticipante = cualo
     usuario = data.js.get(cualo)?.nombre
     pjEdit = data.pjs.get(idParticipante) || data.pjs.get(data.js.get(idParticipante).pj)
@@ -77,45 +74,20 @@
 </script>
 
 
-
-<main>
-
-  <section class="titulocampa">
-    <h2>{data.campa.nombre}</h2>
-  </section>
-
-  <div class="central">
-    {#if data.pjs.size > 0}
-      <ParticipantesLista {listaParticipantes} clickFn={clickar}/>
-    {/if}
-      <section class="privi">
-        <article>
-          <header>Mensaje para {usuario || '...'}</header>
-          <div class="botonera">
-            <textarea bind:value={msg}></textarea>
-            <button on:click={manda}>Manda</button>
-          </div>
-        </article>
-        <article>
-          <header>Respuesta</header>
-          <textarea bind:value={recibido}></textarea>
-        </article>
-      </section>
-
-    </div>
-    <Ficha pj={pjEdit}/>
-</main>
+<div class="sesion">
+  <ParticipantesLista {listaParticipantes} clickFn={clickar}/>
+  <Ficha pj={pjEdit}/>
+  <Chat/>
+</div>
 
 
 
 <style>
-  div.central{
+  .sesion{
     display: grid;
-    grid-template-columns: max-content auto;
-    width: 800px;
-  }
-
-  .botonera button{
+    grid-template-columns: 300px auto 300px;
     height: 100%;
+    overflow: auto;
+    grid-template-rows: 100%;
   }
 </style>
