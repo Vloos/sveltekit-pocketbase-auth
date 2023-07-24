@@ -4,7 +4,7 @@
 </script>
 
 
-
+<div>
 {#if pj}
   <section>
     <header>{pj.nombre}</header>
@@ -56,6 +56,7 @@
     </ul>
   </section>
 {/if}
+</div>
 
 
 
