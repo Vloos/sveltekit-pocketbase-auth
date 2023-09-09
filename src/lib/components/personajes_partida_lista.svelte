@@ -1,13 +1,16 @@
 <script>
-	import Personaje from '$lib/pj/Personaje';
-	import { pjs, pjDragado, js } from '$lib/stores'
-  import { PersonajePartida, BotonBorrar } from '$lib/components'
-  import { page } from '$app/stores'
+	import { pjs, js } from '$lib/stores'
+  import { PersonajePartida, BotonBorrar, Modal } from '$lib/components'
 	import { notifications } from '$lib/notificaciones';
+	import NuevoPjModal from '$lib/Components/Personaje/nuevo_pj_modal.svelte';
+
   
 
   let nombre = ''
+  let modal
 
+
+  /*
   function creaPj(){
     if (nombre < 3) {
       notifications.warning('Nombre demasiado corto', 3000)
@@ -34,6 +37,11 @@
         notifications.warning(res?.message, 3000)
       }
     })
+  }
+*/
+
+  function modalNuevoPj(){
+    modal.abrir({c:NuevoPjModal})
   }
 
 
@@ -74,20 +82,12 @@
 
 
 
+<Modal bind:this={modal}/>
 <section class:nadie={$pjs.size === 0}>
   <header>Personajes</header>
   <article class="botonera">
-    <label for="nombrepj">Nombre</label>
-    <input
-      on:keypress={e => {nuevoPjBoton(e)}}
-      type="text"
-      name="nombrepj" 
-      id="nombrepj"
-      bind:value={nombre}
-    >
     <button 
-      on:click={() => {creaPj()}} 
-      disabled={nombre.length < 3}
+      on:click={() => {modalNuevoPj()}} 
     >Crear personaje</button>
   </article>
   {#if $pjs.size > 0}
@@ -121,10 +121,5 @@
   .pj{
     display: grid;
     grid-template-columns: auto min-content;
-  }
-
-  label{
-    flex-basis: max-content;
-    padding: 4px;
   }
 </style>

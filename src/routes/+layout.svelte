@@ -1,7 +1,7 @@
 <script>
 	import { page } from '$app/stores';
 	import { goto } from '$app/navigation';
-	import { UserAvatar, SModalAdmin, Notificacion} from '$lib/components'
+	import { UserAvatar, Notificacion} from '$lib/components'
   
 
   export let data
@@ -11,9 +11,7 @@
 
 
 
-<SModalAdmin/>
 <Notificacion/>
-
 <header id="cabezapaj">
   {#if data.user}
     <div class="usuario">

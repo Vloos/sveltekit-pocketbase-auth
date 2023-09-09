@@ -7,6 +7,8 @@
 
   let nombre = ''
   let desc = ''
+  export let cerrarFn
+
 
   function keyPress(e){
     if (e.shiftKey && e.charCode === 13) {
@@ -37,7 +39,7 @@
         notifications.success(res.message, 2000)
         $campDirigiendo.set(res.campa.id, res.campa)
         $campDirigiendo = $campDirigiendo
-        closeModal()
+        cerrarFn()
         goto(`/dj/${res.campa.id}/administrar`)
       }else{
         notifications.warning(res.message, 2000)
@@ -56,7 +58,6 @@
     name="nombre"
     id="nombre"
     placeholder="Nombre de la partida"
-    autofocus
     bind:value={nombre}
   >
   <textarea

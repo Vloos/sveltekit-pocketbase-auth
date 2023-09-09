@@ -1,6 +1,6 @@
 <script>
 	import { campDirigiendo, campJugando } from '$lib/stores';
-  import {Login, Register, PartidasDirigidasLista} from '$lib/components'
+  import {Login, Register, PartidasDirigidasLista, Tabs} from '$lib/components'
   import { fade } from 'svelte/transition';
 	import PartidasJugadasLista from '../lib/components/partidas_jugadas_lista.svelte';
 	import { onMount } from 'svelte';
@@ -9,8 +9,11 @@
 
   export let data
   export let form = undefined
-  let secciones = ['Identifícate', 'Regístrate']
-  let seccionActiva = form?.error ? 1 : 0
+  let items = {
+    'Identifícate': {c:Login},
+    'Regístrate': {c:Register, p:{fields:form?.fields}}
+  }
+  let activo = form?.error ? 'Regístrate' : 'Identifícate'
 
   $: $campJugando = data.jugando
   $: $campDirigiendo = data.dirigiendo
@@ -31,39 +34,9 @@
 </svelte:head>
 
 {#if !data.user}
-  <div class="pesta">
-    <header>
-      {#each secciones as seccion, i}
-        <button on:click={() => seccionActiva = i} class="opcion {seccionActiva == i? 'seleccionado': ''}">{seccion}</button>
-      {/each}
-    </header>
-    <article transition:fade={{duration:75}}>
-      {#if seccionActiva === 0}<div transition:fade={{duration:75}}><Login/></div>{/if}
-      {#if seccionActiva === 1}<div transition:fade={{duration:75}}><Register fields={form?.fields}/></div>{/if}
-    </article>
-  </div>
+  <Tabs {items} {activo}/>
 {:else}
   <PartidasDirigidasLista/>
   <PartidasJugadasLista/>
 {/if}
 
-
-
-<style>
-
-  .pesta{
-    width: 800px;
-    backdrop-filter: blur(20px);
-  }
-
-  article{
-    grid-template-columns: 1fr;
-    grid-template-rows: 1fr;
-  }
-
-  article > div{
-    grid-column: 1 / 2;
-    grid-row: 1 / 2;
-  }
-
-</style>

@@ -1,15 +1,18 @@
 <script>
-  import { PartidaDirigida } from "$lib/components";
+  import { PartidaDirigida, Modal, CrearPartidaModal } from "$lib/components";
   import { amod } from '$lib/stores'
   import { campDirigiendo } from '$lib/stores';
   
+	
+  let modal
 
   function crearPartida(){
-    $amod('crearPartida')
+    // $amod('crearPartida')
+    modal.abrir({c:CrearPartidaModal})
   }
 </script>
 
-
+<Modal bind:this={modal}/>
 <section>
   <header>Partidas dirigidas</header>
   <div class="botonera"><button on:click={crearPartida}>Crear una partida</button></div>
