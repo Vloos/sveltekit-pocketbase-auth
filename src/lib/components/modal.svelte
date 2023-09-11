@@ -56,13 +56,18 @@ modal.abrir({c:Componente, p:{prop:'valor', prop2:5}}, false)
     c = modalData.c
     mostrarCerrar = bCerrar
   }
+
+
+  function cancel(){
+    if (mostrarCerrar) cerrar()
+  }
 </script>
 
 
 {#if c}
   <dialog
     bind:this={modal}
-    on:cancel|preventDefault={cerrar}
+    on:cancel|preventDefault={cancel}
     on:introstart={() => modal.showModal()}
     on:outroend={() => {modal.close()}}
     transition:fade={{duration:75}}

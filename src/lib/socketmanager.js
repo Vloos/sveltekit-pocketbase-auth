@@ -2,7 +2,7 @@ import io from 'socket.io-client'
 import { browser } from '$app/environment'
 import { env } from '$env/dynamic/public'
 import { writable } from 'svelte/store';
-import { notifications } from '$lib/notificaciones';
+import { notifications } from '$lib/notifications';
 
 export let chat = chatStore()
 export let pj = writable()
@@ -64,7 +64,7 @@ function socketConfig(userId, partidaId, role){
     if (role === 'dj'){
       setJugando(true, partidaId)
     }    
-    notifications.info(`Sesión de juego iniciada como ${role === 'dj' ? 'director' : 'jugador'}`, 2000)
+    notifications.info(`Sesión de juego iniciada como ${role === 'dj' ? 'director' : 'jugador'}`)
   });
 
 
@@ -74,7 +74,7 @@ function socketConfig(userId, partidaId, role){
     if (role === 'dj'){
       setJugando(false, partidaId)
     }
-    notifications.info(`Sesión de juego finalizada`, 2000)
+    notifications.info(`Sesión de juego finalizada`)
   });
 
 

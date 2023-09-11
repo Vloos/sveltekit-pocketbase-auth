@@ -4,7 +4,7 @@
   import { fade } from 'svelte/transition';
 	import PartidasJugadasLista from '../lib/components/partidas_jugadas_lista.svelte';
 	import { onMount } from 'svelte';
-  import { notifications } from '$lib/notificaciones'
+  import { notifications } from '$lib/notifications'
 	
 
   export let data
@@ -21,7 +21,7 @@
 
   onMount(() => {
     if (form?.success){
-      notifications.success('Usuario registrado correctamente', 3000)
+      notifications.success('Usuario registrado correctamente')
     }
 
   })

@@ -2,7 +2,7 @@
   import { closeModal } from 'svelte-modals';
   import { goto } from "$app/navigation";
   import { campDirigiendo } from '$lib/stores';
-  import { notifications } from '$lib/notificaciones'
+  import { notifications } from '$lib/notifications'
 	
 
   let nombre = ''
@@ -21,7 +21,7 @@
   function crearPartida(){
     
     if(nombre.length <= 3) {
-      notifications.warning('Nobre demasiado corto', 3000)
+      notifications.warning('Nobre demasiado corto')
       return
     }
     const body = JSON.stringify({
@@ -36,13 +36,13 @@
     .then(res => res.json())
     .then(res => {
       if (res?.type === 'success'){
-        notifications.success(res.message, 2000)
+        notifications.success(res.message)
         $campDirigiendo.set(res.campa.id, res.campa)
         $campDirigiendo = $campDirigiendo
         cerrarFn()
         goto(`/dj/${res.campa.id}/administrar`)
       }else{
-        notifications.warning(res.message, 2000)
+        notifications.warning(res.message)
       }
     })
   }

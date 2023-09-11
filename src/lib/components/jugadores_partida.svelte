@@ -2,14 +2,14 @@
 	import {JugadorPartida} from '$lib/components'
   import { js } from '$lib/stores'
   import { page } from '$app/stores'
-	import { notifications } from '$lib/notificaciones';
+	import { notifications } from '$lib/notifications';
 
   let email
   const emailRegExp = new RegExp(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/)
 
   function insertaJ() {
     if (!emailRegExp.test(email)){
-      notifications.warning('No se reconoce el email', 3000)
+      notifications.warning('No se reconoce el email')
       return
     }
 
@@ -26,12 +26,12 @@
     .then(res => res.json())
     .then(res => {
       if(res?.type === 'success'){
-        notifications.success(res?.message, 3000)
+        notifications.success(res?.message)
         $js.set(res.jugador.id, res.jugador)
         $js = $js
         email = ''
       }else{
-        notifications.warning(res?.message, 3000)
+        notifications.warning(res?.message)
       }
     })
   }

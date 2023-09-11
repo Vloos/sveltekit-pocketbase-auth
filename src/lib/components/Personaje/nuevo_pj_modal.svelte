@@ -10,7 +10,7 @@ El modal para crear pj, a modo de "wizard", pidiendo información en cada pantal
 -->
 
 <script>
-	import Datos from "./nuevo_pj_modal/Datos.svelte";
+	import { Datos } from '$lib/components'
 
   let pj = {
     altura: 1,
@@ -27,5 +27,5 @@ El modal para crear pj, a modo de "wizard", pidiendo información en cada pantal
     Nombre
   </header>
   <input type="text">
-  <Datos {pj} editando={true}/>
+  <Datos {pj}/>
 </article>

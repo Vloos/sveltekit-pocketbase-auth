@@ -1,9 +1,7 @@
 <script>
 	import { pjs, js } from '$lib/stores'
-  import { PersonajePartida, BotonBorrar, Modal } from '$lib/components'
-	import { notifications } from '$lib/notificaciones';
-	import NuevoPjModal from '$lib/Components/Personaje/nuevo_pj_modal.svelte';
-
+  import { PersonajePartida, BotonBorrar, Modal, NuevoPjModal } from '$lib/components'
+	import { notifications } from '$lib/notifications'
   
 
   let nombre = ''
@@ -31,10 +29,10 @@
       if (res?.type === 'success') {
         $pjs.set(res.pj.id, res.pj)
         $pjs = $pjs
-        notifications.success(res?.message, 3000)
+        notifications.success(res?.message)
         nombre = ''
       } else {
-        notifications.warning(res?.message, 3000)
+        notifications.warning(res?.message)
       }
     })
   }
@@ -56,7 +54,7 @@
     .then(res => res.json())
     .then(res => {
       if (res?.type === 'success'){
-        notifications.success(res?.message, 3000)
+        notifications.success(res?.message)
         const jugador = $js.get(res.idJug)       
         if(jugador){
           jugador.nombre_pj = ''
@@ -66,7 +64,7 @@
         $pjs.delete(id)
         $pjs = $pjs
       } else {
-        notifications.warning(res?.message, 3000)
+        notifications.warning(res?.message)
       }
     })
   }
@@ -81,7 +79,6 @@
 </script>
 
 
-
 <Modal bind:this={modal}/>
 <section class:nadie={$pjs.size === 0}>
   <header>Personajes</header>
@@ -94,9 +91,7 @@
     <PersonajePartida/>
     <ul>
       {#each [...$pjs] as [k, pj] (k)}
-        <li 
-          
-          >
+        <li>
           <article class="pj">
             <PersonajePartida {pj}/>
             <BotonBorrar on:borrar={() => borrarPj(k)}/>
