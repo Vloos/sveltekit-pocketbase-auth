@@ -121,7 +121,7 @@
       if (res.type === 'success'){
         notifications.success(res.message)
       }else{
-        // dehacer el cambio optimista si no ha salido bien
+        // deshacer el cambio optimista si no ha salido bien
         jugador.id_pj = id_pjAnterior
         jugador.nombre_pj = nombre_pjAnterior
         pj.id_jugador = pjJugadorIdAsignadoAnterior

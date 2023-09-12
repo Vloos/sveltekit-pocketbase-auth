@@ -1,7 +1,8 @@
 <script>
+	import { modals } from '$lib/components/modal.svelte';
 	import { page } from '$app/stores';
 	import { mandaSocket } from '$lib/socketmanager';
-  import { closeModal } from 'svelte-modals';
+
 
   export let paraId = ''
   let paraNombre = getNombre(paraId)
@@ -15,7 +16,7 @@
       para: paraId,
     }
     mandaSocket('c:chat', data, cabecera)
-    closeModal()
+    modals.close()
   }
 
 

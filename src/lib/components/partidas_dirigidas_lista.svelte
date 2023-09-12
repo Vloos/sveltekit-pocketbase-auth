@@ -1,18 +1,16 @@
 <script>
   import { PartidaDirigida, Modal, CrearPartidaModal } from "$lib/components";
-  import { amod } from '$lib/stores'
   import { campDirigiendo } from '$lib/stores';
+  import { modals } from  '$lib/components/modal.svelte'
   
-	
-  let modal
+
 
   function crearPartida(){
-    // $amod('crearPartida')
-    modal.abrir({c:CrearPartidaModal})
+    modals.open({c:CrearPartidaModal})
   }
 </script>
 
-<Modal bind:this={modal}/>
+
 <section>
   <header>Partidas dirigidas</header>
   <div class="botonera"><button on:click={crearPartida}>Crear una partida</button></div>

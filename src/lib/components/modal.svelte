@@ -1,87 +1,84 @@
 <!--
 @component
 Uso:
-1. Crea una variable llamada "modal", por ejemplo
-```ts
-let modal : import('$lib/components/modal.svelte').default
-```
-2. Bindea el componente a la variable
+1. importa modals, junto con el componente
 ```js
-<Modal bind:this={modal}/>
+import Modal, {modals} from '$lib/componets/modal.svelte'
 ```
-3. llamar a la funcion "abrir" del componente, como parámetro un objeto que tiene el componente y una lista de props del componente.
-El segundo parametro, para mostrar o no el botón para cerrar el modal (predeterminado: true). 
+2. Coloca el componente en el layout principal
+3. Llamar a la funcion "open" de modals para abrir un modal, como parámetro, un objeto que tiene el componente, una lista de props del componente y un booleano que indica si debe ocultar el botón predeterminado para cerrar el modal (que muestra si no se pone nada).
+Si no se muestra el botón, el modal no se puede cerrar con la tecla "esc" (viene bien para cuadros de dialogo?)
 ```js
-modal.abrir({c:Componente, p:{prop:'valor', prop2:5}}, false)
+modal.abrir({c:Componente, p:{prop:'valor', prop2:5}, cerrarBtn: false})
 ```
-4. El componente debería tener una prop llamada "cerrarFn" que es una función utilizada para cerrar el modal desde el componente.
-```
-<button on:click={cerrarFn}>Cerrar</button>
+4. Para cerrar el modal, modals.close() cierra el último modal abierto. O se pasa el indice del modal que se quiere cerrar
+```html
+<button on:click="{() => {modals.close()}}">Cerrar</button>
 ```
 -->
 
 
-<script>
-	import { fade } from "svelte/transition";
+<script context="module">
+  import { writable } from "svelte/store";
 
-  /**@type {Object.<any, any>}*/
-  let p
-  /**@type {ConstructorOfATypedSvelteComponent | undefined}*/
-  let c
-  /**@type {HTMLDialogElement}*/
-  let modal
-  /**@type {boolean}*/
-  let mostrarCerrar = true
+  export const modals = modalstore()
 
-  /**
-   * cuando c es undefined, comienza la animación.
-   * cuando la animación termina, se dispara close()
-   */
-  export function cerrar() {
-    p = undefined;
-    c = undefined;
-  }
+  function modalstore(){
+    const {subscribe, set, update} = writable(new Array())
 
-  /**
-   * Cuando c es un componente, comienza la animación.
-   * cuando la animación comienza, se dispara showModal()
-   * c: componente
-   * p: objeto con props
-   * @param {{c:ConstructorOfATypedSvelteComponent, p:Object.<string, any>}} modalData componente y props para mostrar en el modal
-   * @param {boolean} bCerrar mostrar el botón predeterminado para cerrar el modal
-   */
-  export function abrir(modalData, bCerrar = true) {
-    p = modalData.p || {}
-    p.cerrarFn = cerrar
-    c = modalData.c
-    mostrarCerrar = bCerrar
-  }
-
-
-  function cancel(){
-    if (mostrarCerrar) cerrar()
+    return {
+      subscribe, set,
+      /**@param {{c: import('svelte').SvelteComponent, p?:Object.<string, any>, cerrarBtn?:boolean}} modalData */
+      open: (modalData) => update((m) => {
+        const cerrarBtn = modalData?.cerrarBtn == undefined ? true : modalData.cerrarBtn
+        m.push({...modalData, cerrarBtn})
+        return m
+      }),
+      /**@param {number | undefined} index*/
+      close: (index = undefined) => update((m) => {
+        m.splice(index || m.length-1)
+        return m
+      }),
+    }
   }
 </script>
 
 
-{#if c}
-  <dialog
-    bind:this={modal}
-    on:cancel|preventDefault={cancel}
-    on:introstart={() => modal.showModal()}
-    on:outroend={() => {modal.close()}}
-    transition:fade={{duration:75}}
-  >
-    <section>
-      <svelte:component this={c} {...p}/>
-    </section>
-    {#if mostrarCerrar}
-      <button
-        on:click={cerrar}
-      >Cerrar</button>
-    {/if}
-  </dialog>
-{/if}
+<script>
+	import { scale  } from "svelte/transition";
+
+  /**@type {Array.<HTMLDialogElement>}*/
+  let modalcomponentlist = []
+
+
+  /**
+   * Si hay boton de cerrar, esc cierra el modal
+   * @param {number} i indice del modal que se cierra
+   */
+  function cerrar(i) {
+    if ($modals[i].cerrarBtn) modals.close(i)
+  }
+</script>
+
+<div class="modalconainer">
+  {#each $modals as m, i}
+    <dialog
+      bind:this={modalcomponentlist[i]}
+      transition:scale={{ duration: 75, start: 0.95}}
+      on:introstart={() => modalcomponentlist[i].showModal()}
+      on:cancel|preventDefault={() => {cerrar(i)}}
+    >
+      <section>
+        <svelte:component this={m.c} {...m.p}/>
+      </section>
+      {#if m.cerrarBtn}
+        <button
+          on:click={() => {cerrar(i)}}
+        >Cerrar</button>
+      {/if}
+    </dialog>  
+  {/each}
+</div>
 
 
 <style>
@@ -90,7 +87,6 @@ modal.abrir({c:Componente, p:{prop:'valor', prop2:5}}, false)
     border: none;
     background: transparent;
     overflow: auto;
-    width: max-content;
   }
 
   dialog[open] {
@@ -98,7 +94,7 @@ modal.abrir({c:Componente, p:{prop:'valor', prop2:5}}, false)
   }
 
   dialog::backdrop {
-    backdrop-filter: blur(8px);
+    backdrop-filter: blur(2px);
     background: var(--bg-main);
   }
 </style>

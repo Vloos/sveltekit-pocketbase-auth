@@ -1,13 +1,14 @@
 <script>
+	import { modals } from '$lib/components/modal.svelte';
 	import { Icons } from '$lib/components';
-	import { amod } from '$lib/stores';
   import { page } from "$app/stores";
+	import PrivadoModal from './privado_modal.svelte';
 
   export let chatMsg = undefined
 
   
   function responder(id){
-    $amod('privado', {paraId: id})
+    modals.open({c: PrivadoModal, p:{paraId: id}})
   }
 
 

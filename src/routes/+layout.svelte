@@ -2,6 +2,7 @@
 	import { page } from '$app/stores';
 	import { goto } from '$app/navigation';
 	import { UserAvatar} from '$lib/components'
+	import Modal from '$lib/components/modal.svelte';
   import { SvelteToast } from '@zerodevx/svelte-toast'
   
 
@@ -11,7 +12,7 @@
 </script>
 
 
-
+<Modal/>
 <SvelteToast options={{ reversed: true, intro: { y: 192 } }}/>
 <header id="cabezapaj">
   {#if data.user}

@@ -1,5 +1,5 @@
 <script>
-  import { closeModal } from 'svelte-modals';
+  import { modals } from '$lib/components/modal.svelte';
   import { goto } from "$app/navigation";
   import { campDirigiendo } from '$lib/stores';
   import { notifications } from '$lib/notifications'
@@ -7,7 +7,7 @@
 
   let nombre = ''
   let desc = ''
-  export let cerrarFn
+
 
 
   function keyPress(e){
@@ -39,7 +39,7 @@
         notifications.success(res.message)
         $campDirigiendo.set(res.campa.id, res.campa)
         $campDirigiendo = $campDirigiendo
-        cerrarFn()
+        modals.close()
         goto(`/dj/${res.campa.id}/administrar`)
       }else{
         notifications.warning(res.message)

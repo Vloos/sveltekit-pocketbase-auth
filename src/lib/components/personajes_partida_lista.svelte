@@ -1,12 +1,11 @@
 <script>
 	import { pjs, js } from '$lib/stores'
-  import { PersonajePartida, BotonBorrar, Modal, NuevoPjModal } from '$lib/components'
+  import { PersonajePartida, BotonBorrar, NuevoPjModal } from '$lib/components'
 	import { notifications } from '$lib/notifications'
+	import { modals } from './modal.svelte';
   
 
   let nombre = ''
-  let modal
-
 
   /*
   function creaPj(){
@@ -39,7 +38,7 @@
 */
 
   function modalNuevoPj(){
-    modal.abrir({c:NuevoPjModal})
+    modals.open({c:NuevoPjModal})
   }
 
 
@@ -79,7 +78,7 @@
 </script>
 
 
-<Modal bind:this={modal}/>
+
 <section class:nadie={$pjs.size === 0}>
   <header>Personajes</header>
   <article class="botonera">
