@@ -5,7 +5,7 @@ import InfoCampa from './components/infocampa.svelte'
 import JugadoresPartida from './components/jugadores_partida.svelte'
 import JugadorPartida from './components/jugador_partida.svelte'
 import Login from './components/login.svelte'
-import Notificacion from './components/notificacion.svelte'
+import Modal from "./components/modal.svelte"
 import ParticipantesLista from './components/participantes_lista.svelte'
 import PartidaDirigida from './components/partida_dirigida.svelte'
 import PartidaJugada from './components/partida_jugada.svelte'
@@ -14,15 +14,17 @@ import PartidasJugadasLista from './components/partidas_jugadas_lista.svelte'
 import PersonajePartida from './components/personaje_partida.svelte'
 import PersonajesPartidaLista from './components/personajes_partida_lista.svelte'
 import Register from './components/register.svelte'
-import SModalAdmin from './components/smodaladmin.svelte'
-import SModalSlot from './components/smodalslot.svelte'
+import Tabs from "./components/tabs.svelte";
 import UserAvatar from './components/userAvatar.svelte'
+import Datos from './components/Personaje/nuevo_pj_modal/Datos.svelte'
+import NuevoPjModal from './components/Personaje/nuevo_pj_modal.svelte'
 
 // chat
 import Chat from './components/chat/cajachat.svelte'
 import PrivadoModal from './components/chat/privado_modal.svelte'
 import MensajeChat from './components/chat/mensaje_chat.svelte'
 
-export { Notificacion, Icons, BotonBorrar, PersonajePartida, Login, Register, UserAvatar, PartidaDirigida, PartidasDirigidasLista, 
+export { Icons, BotonBorrar, PersonajePartida, Login, Register, UserAvatar, PartidaDirigida, PartidasDirigidasLista, 
   PartidaJugada, PartidasJugadasLista, InfoCampa, JugadoresPartida, ParticipantesLista,
-  JugadorPartida, SModalAdmin, SModalSlot, CrearPartidaModal, PersonajesPartidaLista, Chat, PrivadoModal, MensajeChat}
+  JugadorPartida, Tabs, CrearPartidaModal, PersonajesPartidaLista, Chat, PrivadoModal, MensajeChat, Modal,
+  NuevoPjModal,  Datos }

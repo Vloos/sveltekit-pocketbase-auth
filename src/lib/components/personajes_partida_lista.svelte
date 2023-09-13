@@ -1,13 +1,13 @@
 <script>
-	import Personaje from '$lib/pj/Personaje';
-	import { pjs, pjDragado, js } from '$lib/stores'
-  import { PersonajePartida, BotonBorrar } from '$lib/components'
-  import { page } from '$app/stores'
-	import { notifications } from '$lib/notificaciones';
+	import { pjs, js } from '$lib/stores'
+  import { PersonajePartida, BotonBorrar, NuevoPjModal } from '$lib/components'
+	import { notifications } from '$lib/notifications'
+	import { modals } from './modal.svelte';
   
 
   let nombre = ''
 
+  /*
   function creaPj(){
     if (nombre < 3) {
       notifications.warning('Nombre demasiado corto', 3000)
@@ -28,12 +28,17 @@
       if (res?.type === 'success') {
         $pjs.set(res.pj.id, res.pj)
         $pjs = $pjs
-        notifications.success(res?.message, 3000)
+        notifications.success(res?.message)
         nombre = ''
       } else {
-        notifications.warning(res?.message, 3000)
+        notifications.warning(res?.message)
       }
     })
+  }
+*/
+
+  function modalNuevoPj(){
+    modals.open({c:NuevoPjModal})
   }
 
 
@@ -48,7 +53,7 @@
     .then(res => res.json())
     .then(res => {
       if (res?.type === 'success'){
-        notifications.success(res?.message, 3000)
+        notifications.success(res?.message)
         const jugador = $js.get(res.idJug)       
         if(jugador){
           jugador.nombre_pj = ''
@@ -58,7 +63,7 @@
         $pjs.delete(id)
         $pjs = $pjs
       } else {
-        notifications.warning(res?.message, 3000)
+        notifications.warning(res?.message)
       }
     })
   }
@@ -77,26 +82,15 @@
 <section class:nadie={$pjs.size === 0}>
   <header>Personajes</header>
   <article class="botonera">
-    <label for="nombrepj">Nombre</label>
-    <input
-      on:keypress={e => {nuevoPjBoton(e)}}
-      type="text"
-      name="nombrepj" 
-      id="nombrepj"
-      bind:value={nombre}
-    >
     <button 
-      on:click={() => {creaPj()}} 
-      disabled={nombre.length < 3}
+      on:click={() => {modalNuevoPj()}} 
     >Crear personaje</button>
   </article>
   {#if $pjs.size > 0}
     <PersonajePartida/>
     <ul>
       {#each [...$pjs] as [k, pj] (k)}
-        <li 
-          
-          >
+        <li>
           <article class="pj">
             <PersonajePartida {pj}/>
             <BotonBorrar on:borrar={() => borrarPj(k)}/>
@@ -121,10 +115,5 @@
   .pj{
     display: grid;
     grid-template-columns: auto min-content;
-  }
-
-  label{
-    flex-basis: max-content;
-    padding: 4px;
   }
 </style>

@@ -1,12 +1,14 @@
 <script>
-  import { closeModal } from 'svelte-modals';
+  import { modals } from '$lib/components/modal.svelte';
   import { goto } from "$app/navigation";
   import { campDirigiendo } from '$lib/stores';
-  import { notifications } from '$lib/notificaciones'
+  import { notifications } from '$lib/notifications'
 	
 
   let nombre = ''
   let desc = ''
+
+
 
   function keyPress(e){
     if (e.shiftKey && e.charCode === 13) {
@@ -19,7 +21,7 @@
   function crearPartida(){
     
     if(nombre.length <= 3) {
-      notifications.warning('Nobre demasiado corto', 3000)
+      notifications.warning('Nobre demasiado corto')
       return
     }
     const body = JSON.stringify({
@@ -34,13 +36,13 @@
     .then(res => res.json())
     .then(res => {
       if (res?.type === 'success'){
-        notifications.success(res.message, 2000)
+        notifications.success(res.message)
         $campDirigiendo.set(res.campa.id, res.campa)
         $campDirigiendo = $campDirigiendo
-        closeModal()
+        modals.close()
         goto(`/dj/${res.campa.id}/administrar`)
       }else{
-        notifications.warning(res.message, 2000)
+        notifications.warning(res.message)
       }
     })
   }
@@ -56,7 +58,6 @@
     name="nombre"
     id="nombre"
     placeholder="Nombre de la partida"
-    autofocus
     bind:value={nombre}
   >
   <textarea

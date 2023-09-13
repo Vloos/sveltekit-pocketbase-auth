@@ -1,7 +1,7 @@
 <script>
 	import { goto } from "$app/navigation";
   import {pjs, js} from '$lib/stores'
-	import { notifications } from '$lib/notificaciones';
+	import { notifications } from '$lib/notifications';
 	import { formateaFecha } from '$lib/utils';
 	
   export let campa
@@ -32,11 +32,11 @@
     .then(res => res.json())
     .then(res => {
       if(res?.type === 'success'){
-        notifications.success(res.message, 3000)
+        notifications.success(res.message)
         campa = res.campa
         editando = false
       }else{
-        notifications.warning(res.message, 3000)
+        notifications.warning(res.message)
       }
     })
   }
@@ -59,10 +59,10 @@
     .then(res => res.json())
     .then(res => {
       if (res?.type === 'success'){
-        notifications.success(res.message, 3000)
+        notifications.success(res.message)
         goto(`/`)
       } else {
-        notifications.warning(res.message, 3000)
+        notifications.warning(res.message)
       }
     })
     

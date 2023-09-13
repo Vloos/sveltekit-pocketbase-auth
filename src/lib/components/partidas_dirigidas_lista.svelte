@@ -1,11 +1,12 @@
 <script>
-  import { PartidaDirigida } from "$lib/components";
-  import { amod } from '$lib/stores'
+  import { PartidaDirigida, Modal, CrearPartidaModal } from "$lib/components";
   import { campDirigiendo } from '$lib/stores';
+  import { modals } from  '$lib/components/modal.svelte'
   
 
+
   function crearPartida(){
-    $amod('crearPartida')
+    modals.open({c:CrearPartidaModal})
   }
 </script>
 

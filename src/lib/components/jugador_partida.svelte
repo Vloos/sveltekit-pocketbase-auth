@@ -1,7 +1,7 @@
 <script>
   import { pjDragado, pjs, js } from '$lib/stores'
   export let jugador = undefined
-  import { notifications } from '$lib/notificaciones'
+  import { notifications } from '$lib/notifications'
   import { page } from '$app/stores'
 
 
@@ -34,14 +34,14 @@
     .then(res => res.json())
     .then(res => {
       if (res?.type === 'success'){
-        notifications.success(res.message, 3000)
+        notifications.success(res.message)
       }else{
         //desacer cambio optimista
         j.id_pj = id_pjAnterior
         j.nombre_pj = nombre_pjAnterior
         pj.id_jugador = pjJugadorIdAsignadoAnterior
         pj.jugador_username = pjJugadorNombreAsignadoAnterior
-        notifications.warning(res.message, 3000)
+        notifications.warning(res.message)
         $pjs = $pjs
         $js = $js
       }
@@ -62,7 +62,7 @@
     .then(res => res.json())
     .then(res => {
       if (res?.type === 'success'){
-        notifications.success(res.message, 3000)
+        notifications.success(res.message)
         // quitando los datos del jugador del personaje
         const suPj = $pjs.get($js.get(id).id_pj)
         if (suPj){
@@ -76,7 +76,7 @@
         $js = $js
 
       }else{
-        notifications.warning(res.message, 3000)        
+        notifications.warning(res.message)        
       }
     })
   }
@@ -119,14 +119,14 @@
     .then(res => res.json())
     .then(res => {
       if (res.type === 'success'){
-        notifications.success(res.message, 3000)
+        notifications.success(res.message)
       }else{
-        // dehacer el cambio optimista si no ha salido bien
+        // deshacer el cambio optimista si no ha salido bien
         jugador.id_pj = id_pjAnterior
         jugador.nombre_pj = nombre_pjAnterior
         pj.id_jugador = pjJugadorIdAsignadoAnterior
         pj.jugador_username = pjJugadorNombreAsignadoAnterior
-        notifications.warning(res?.message, 3000)
+        notifications.warning(res?.message)
         $pjs = $pjs
         $js = $js
       }

@@ -1,6 +1,7 @@
 <script>
+	import { modals } from '$lib/components/modal.svelte';
   import { slide } from 'svelte/transition'
-  import { amod } from '$lib/stores';
+	import PrivadoModal from './chat/privado_modal.svelte';
 
   export let listaParticipantes = []
   export let clickFn = undefined
@@ -12,7 +13,7 @@
   }
 
   function privado(id){
-    $amod('privado', {paraId: id})
+    modals.open({c: PrivadoModal, p:{paraId: id}})
   }
 </script>
 

@@ -92,8 +92,19 @@
   --borde-l: 60%;
   --borde: hsl(var(--borde-h), var(--borde-s), var(--borde-l));
 
-  /* color para avisos */
-  --warning: #583030;
+  /* avisos */
+  --warning: orange;
+  --warning-bar: darkorange;
+  --failure: red;
+  --failure-bar: darkred;
+  --success: green;
+  --success-bar: darkgreen;
+  --info: hsl(var(--bg-2-h), var(--bg-2-s), var(--bg-2-l));
+  --info-bar: var(--bg-titulo);
+  --toastContainerTop: auto;
+  --toastContainerRight: auto;
+  --toastContainerBottom: 2vh;
+  --toastContainerLeft: auto;
 }
 
 

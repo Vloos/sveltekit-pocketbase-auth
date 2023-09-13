@@ -1,7 +1,6 @@
 <script>
-	import { applyAction, enhance } from "$app/forms";
-	import { invalidateAll } from "$app/navigation";
-  import { notifications } from '$lib/notificaciones'
+	import { enhance } from "$app/forms";
+  import { notifications } from '$lib/notifications'
 
   let nombre = ''
   let password = ''
@@ -14,7 +13,7 @@
           await update()
           break
         default:
-          notifications.warning(result.error.message, 3000)
+          notifications.warning(result.error.message)
       }
     }
   }

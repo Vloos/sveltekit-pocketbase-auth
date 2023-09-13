@@ -1,6 +1,6 @@
 <script>
 	import { invalidateAll } from '$app/navigation';
-	import { notifications } from '$lib/notificaciones.js';
+	import { notifications } from '$lib/notifications';
   import { formateaFecha} from '$lib/utils'
 	import { onMount } from 'svelte';
 
@@ -28,10 +28,10 @@
     .then(res => res.json())
     .then(res => {
       if(res?.type === 'success'){
-        notifications.success(res.message, 3000)
+        notifications.success(res.message)
         emailVisibility = res.value
       }else{
-        notifications.warning(res.message, 3000)
+        notifications.warning(res.message)
       }
     })
   }
@@ -47,9 +47,9 @@
     .then(res => res.json())
     .then(res => {
       if(res?.type === 'success'){
-        notifications.success(res.message, 3000)
+        notifications.success(res.message)
       }else{
-        notifications.warning(res.message, 3000)
+        notifications.warning(res.message)
       }
     })
   }
@@ -65,7 +65,7 @@
     .then(res => res.json())
     .then(res => {
       if(res?.type === 'success'){
-        notifications.success(res.message, 3000)
+        notifications.success(res.message)
         invalidateAll()
       }else{
         
@@ -84,10 +84,10 @@
     .then(res => res.json())
     .then(res => {
       if(res?.type === 'success'){
-        notifications.success(res.message, 3000)
+        notifications.success(res.message)
         borraPass()
       }else{
-        notifications.warning(res.message, 3000)
+        notifications.warning(res.message)
       }
     })
   }

@@ -1,7 +1,9 @@
 <script>
 	import { page } from '$app/stores';
 	import { goto } from '$app/navigation';
-	import { UserAvatar, SModalAdmin, Notificacion} from '$lib/components'
+	import { UserAvatar} from '$lib/components'
+	import Modal from '$lib/components/modal.svelte';
+  import { SvelteToast } from '@zerodevx/svelte-toast'
   
 
   export let data
@@ -10,10 +12,8 @@
 </script>
 
 
-
-<SModalAdmin/>
-<Notificacion/>
-
+<Modal/>
+<SvelteToast options={{ reversed: true, intro: { y: 192 } }}/>
 <header id="cabezapaj">
   {#if data.user}
     <div class="usuario">
