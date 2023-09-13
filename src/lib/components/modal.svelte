@@ -91,6 +91,7 @@ modal.abrir({c:Componente, p:{prop:'valor', prop2:5}, cerrarBtn: false})
 
   dialog[open] {
     display: grid;
+    width: fit-content;
   }
 
   dialog::backdrop {
